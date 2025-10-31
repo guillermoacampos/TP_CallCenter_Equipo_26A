@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dominio
+namespace dominio
 {
     public class Estados
     {
-        public int IDEstado{ get; set; }
+        public int IDEstado { get; set; }
         public string Descripcion { get; set; }
     }
 }
