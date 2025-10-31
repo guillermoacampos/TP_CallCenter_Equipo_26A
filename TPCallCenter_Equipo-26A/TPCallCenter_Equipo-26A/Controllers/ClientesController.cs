@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using dominio;
 
 namespace TPCallCenter_Equipo_26A.Controllers
 {
@@ -14,11 +15,33 @@ namespace TPCallCenter_Equipo_26A.Controllers
             ViewBag.Title = "Gestión de Clientes";
             ViewBag.Message = "Esta es la página de Clientes funcionando correctamente!";
             
-            // Retornamos datos de prueba simples
-            var clientes = new List<dynamic>
+            // Crear objetos Clientes reales en lugar de objetos anónimos
+            var clientes = new List<Clientes>
             {
-                new { IDCliente = 1, Nombre = "Juan", Apellido = "Pérez", Email = "juan@email.com" },
-                new { IDCliente = 2, Nombre = "María", Apellido = "González", Email = "maria@email.com" }
+                new Clientes
+                {
+                    IDCliente = 1,
+                    Nombre = "Juan",
+                    Apellido = "Pérez",
+                    Documento = "12345678",
+                    Email = "juan@email.com",
+                    Telefono = "1234567890",
+                    Direccion = "Av. Siempre Viva 123",
+                    Activo = true,
+                    fechaAlta = DateTime.Now.AddDays(-30)
+                },
+                new Clientes
+                {
+                    IDCliente = 2,
+                    Nombre = "María",
+                    Apellido = "González",
+                    Documento = "87654321",
+                    Email = "maria@email.com",
+                    Telefono = "0987654321",
+                    Direccion = "Calle Falsa 456",
+                    Activo = true,
+                    fechaAlta = DateTime.Now.AddDays(-15)
+                }
             };
             
             return View(clientes);

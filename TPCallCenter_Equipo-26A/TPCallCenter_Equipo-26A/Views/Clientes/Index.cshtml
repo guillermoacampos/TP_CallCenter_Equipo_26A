@@ -28,16 +28,29 @@
                                     <th>Nombre</th>
                                     <th>Apellido</th>
                                     <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Fecha Alta</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var cliente in Model)
+                                @if (Model != null && Model.Count > 0)
+                                {
+                                    foreach (var cliente in Model)
+                                    {
+                                        <tr>
+                                            <td>@cliente.IDCliente</td>
+                                            <td>@cliente.Nombre</td>
+                                            <td>@cliente.Apellido</td>
+                                            <td>@cliente.Email</td>
+                                            <td>@cliente.Telefono</td>
+                                            <td>@cliente.fechaAlta.ToString("dd/MM/yyyy")</td>
+                                        </tr>
+                                    }
+                                }
+                                else
                                 {
                                     <tr>
-                                        <td>@cliente.IDCliente</td>
-                                        <td>@cliente.Nombre</td>
-                                        <td>@cliente.Apellido</td>
-                                        <td>@cliente.Email</td>
+                                        <td colspan="6" class="text-center">No hay clientes registrados</td>
                                     </tr>
                                 }
                             </tbody>
