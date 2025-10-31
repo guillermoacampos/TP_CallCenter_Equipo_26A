@@ -21,6 +21,41 @@
             left: 0;
             overflow-y: auto;
             width: 250px;
+            background-color: #343a40;
+        }
+        #sidebar-wrapper .sidebar-heading {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #sidebar-wrapper .list-group-item {
+            border: none;
+            padding: 10px 20px;
+        }
+        #sidebar-wrapper .list-group-item:not(:last-child) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #sidebar-wrapper .list-group-item-action {
+            color: white;
+        }
+        #sidebar-wrapper .list-group-item-action:hover {
+            background-color: #495057;
+        }
+        #sidebar-wrapper .logout {
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            padding: 15px 0;
+        }
+        #sidebar-wrapper .logout a {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        #sidebar-wrapper .logout a:hover {
+            color: #bd2130;
         }
         #page-content-wrapper {
             margin-left: 250px;
@@ -34,8 +69,8 @@
     <form id="form1" runat="server">
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
-            <div class="bg-dark border-right" id="sidebar-wrapper">
-                <div class="sidebar-heading text-white">Call Center</div>
+            <div class="bg-dark border-right d-flex flex-column" id="sidebar-wrapper">
+                <div class="sidebar-heading">Call Center</div>
                 <div class="list-group list-group-flush">
                     <a href="Default.aspx" class="list-group-item list-group-item-action bg-dark text-white">
                         <i class="fas fa-tachometer-alt"></i> Dashboard
@@ -43,11 +78,16 @@
                     <a href="Clientes.aspx" class="list-group-item list-group-item-action bg-dark text-white">
                         <i class="fas fa-users"></i> Clientes
                     </a>
+                    <a href="GestionIncidentes.aspx" class="list-group-item list-group-item-action bg-dark text-white">
+                        <i class="fas fa-exclamation-circle"></i> Gestión de Incidentes
+                    </a>
                     <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                         <i class="fas fa-chart-bar"></i> Reportes
                     </a>
-                    <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
-                        <i class="fas fa-cog"></i> Configuración
+                </div>
+                <div class="logout">
+                    <a href="Logout.aspx">
+                        <i class="fas fa-sign-out-alt"></i> Logout
                     </a>
                 </div>
             </div>

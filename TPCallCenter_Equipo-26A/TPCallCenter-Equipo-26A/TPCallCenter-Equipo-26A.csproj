@@ -69,6 +69,10 @@
   <ItemGroup>
     <Content Include="Clientes.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="DetalleIncidente.aspx" />
+    <Content Include="GestionIncidentes.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="NuevoIncidente.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +89,34 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DetalleIncidente.aspx.cs">
+      <DependentUpon>DetalleIncidente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DetalleIncidente.aspx.designer.cs">
+      <DependentUpon>DetalleIncidente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GestionIncidentes.aspx.cs">
+      <DependentUpon>GestionIncidentes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionIncidentes.aspx.designer.cs">
+      <DependentUpon>GestionIncidentes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NuevoIncidente.aspx.cs">
+      <DependentUpon>NuevoIncidente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NuevoIncidente.aspx.designer.cs">
+      <DependentUpon>NuevoIncidente.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site1.Master.cs">
