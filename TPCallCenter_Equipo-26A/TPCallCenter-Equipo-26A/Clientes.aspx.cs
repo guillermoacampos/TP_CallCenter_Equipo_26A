@@ -80,58 +80,33 @@ namespace TPCallCenter_Equipo_26A
             try
             {
                 // Usar el namespace completo para evitar conflictos
-                List<dominio.Clientes> clientes = clientesNegocio.listar();
+                List<dominio.Clientes> clientes = clientesNegocio?.listar();
+
+                if (clientes == null || clientes.Count == 0)
+                {
+                    gvClientes.DataSource = null;
+                    gvClientes.DataBind();
+                    lblMensaje.Text = "No se encontraron clientes.";
+                    lblMensaje.CssClass = "alert alert-warning d-block";
+                    lblContador.Text = "";
+                    return;
+                }
 
                 gvClientes.DataSource = clientes;
                 gvClientes.DataBind();
-                
-                // Actualizar mensaje y contador
-                lblMensaje.Text = $"Clientes cargados correctamente desde la base de datos - {DateTime.Now:HH:mm:ss}";
-                lblMensaje.CssClass = "alert alert-success d-block";
+
+                // Actualizar contador
                 lblContador.Text = $"Total de clientes: {clientes.Count}";
             }
             catch (Exception ex)
             {
-                // Si hay error, mostrar mensaje y cargar datos de ejemplo
-                lblMensaje.Text = $"Error al cargar desde BD: {ex.Message}. Mostrando datos de ejemplo.";
-                lblMensaje.CssClass = "alert alert-warning d-block";
-                
-                CargarDatosEjemplo();
+                // Manejo de errores
+                lblMensaje.Text = $"Error al cargar clientes: {ex.Message}";
+                lblMensaje.CssClass = "alert alert-danger d-block";
+                gvClientes.DataSource = null;
+                gvClientes.DataBind();
+                lblContador.Text = "";
             }
-        }
-
-        private void CargarDatosEjemplo()
-        {
-            // Datos de ejemplo si no funciona la BD
-            var clientesEjemplo = new List<object>
-            {
-                new {
-                    IDCliente = 1,
-                    Nombre = "Juan",
-                    Apellido = "Pérez",
-                    Documento = "12345678",
-                    Email = "juan@email.com",
-                    Telefono = "1234567890",
-                    Direccion = "Av. Siempre Viva 123",
-                    fechaAlta = DateTime.Now.AddDays(-30),
-                    Activo = true
-                },
-                new {
-                    IDCliente = 2,
-                    Nombre = "María",
-                    Apellido = "González",
-                    Documento = "87654321",
-                    Email = "maria@email.com",
-                    Telefono = "0987654321",
-                    Direccion = "Calle Falsa 456",
-                    fechaAlta = DateTime.Now.AddDays(-15),
-                    Activo = true
-                }
-            };
-
-            gvClientes.DataSource = clientesEjemplo;
-            gvClientes.DataBind();
-            lblContador.Text = $"Total de clientes (ejemplo): {clientesEjemplo.Count}";
         }
     }
 }

@@ -2,11 +2,97 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
+        html, body, .container-fluid {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
         .btn-action {
             margin: 2px;
+            border-radius: 5px;
         }
         .alert {
             margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .table {
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #dee2e6;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            height: 100%;
+        }
+        .card-header {
+            background-color: #343a40;
+            color: white;
+            font-size: 1.25rem;
+            border-bottom: none;
+        }
+        .card-body {
+            background-color: #ffffff;
+            height: calc(100% - 56px);
+            display: flex;
+            flex-direction: column;
+        }
+        .badge {
+            font-size: 0.85rem;
+            padding: 0.4em 0.6em;
+        }
+        .btn {
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+        .btn-info:hover {
+            background-color: #117a8b;
+            border-color: #0f6674;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
         }
     </style>
 </asp:Content>
@@ -18,34 +104,8 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3><i class="fas fa-users"></i> Gestión de Clientes - Web Forms</h3>
-                        <asp:Button ID="btnNuevoCliente" runat="server" 
-                                    Text="Nuevo Cliente" 
-                                    CssClass="btn btn-primary"
-                                    OnClick="btnNuevoCliente_Click" />
                     </div>
                     <div class="card-body">
-                        <!-- Mensaje de estado -->
-                        <asp:Label ID="lblMensaje" runat="server" 
-                                   CssClass="alert alert-info d-block" 
-                                   Text="Sistema de gestión de clientes usando ASP.NET Web Forms (.aspx)">
-                        </asp:Label>
-                        
-                        <!-- Botones de acción -->
-                        <div class="mb-3">
-                            <asp:Button ID="btnCargarClientes" runat="server" 
-                                        Text="Cargar Clientes" 
-                                        CssClass="btn btn-success"
-                                        OnClick="btnCargarClientes_Click" />
-                            <asp:Button ID="btnLimpiar" runat="server" 
-                                        Text="Limpiar Lista" 
-                                        CssClass="btn btn-secondary"
-                                        OnClick="btnLimpiar_Click" />
-                            <asp:Button ID="btnExportar" runat="server" 
-                                        Text="Exportar" 
-                                        CssClass="btn btn-info"
-                                        OnClick="btnExportar_Click" />
-                        </div>
-
                         <!-- GridView de clientes -->
                         <asp:GridView ID="gvClientes" runat="server" 
                                       CssClass="table table-striped table-bordered"
@@ -69,35 +129,15 @@
                                         </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Acciones" ItemStyle-Width="200px">
-                                    <ItemTemplate>
-                                        <asp:Button ID="btnVer" runat="server" 
-                                                    Text="Ver" 
-                                                    CssClass="btn btn-sm btn-info btn-action"
-                                                    CommandArgument='<%# Eval("IDCliente") %>'
-                                                    OnClick="btnVer_Click" />
-                                        <asp:Button ID="btnEditar" runat="server" 
-                                                    Text="Editar" 
-                                                    CssClass="btn btn-sm btn-warning btn-action"
-                                                    CommandArgument='<%# Eval("IDCliente") %>'
-                                                    OnClick="btnEditar_Click" />
-                                        <asp:Button ID="btnEliminar" runat="server" 
-                                                    Text="Eliminar" 
-                                                    CssClass="btn btn-sm btn-danger btn-action"
-                                                    CommandArgument='<%# Eval("IDCliente") %>'
-                                                    OnClick="btnEliminar_Click"
-                                                    OnClientClick="return confirm('¿Está seguro de eliminar este cliente?');" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
-                        
-                        <!-- Contador de registros -->
-                        <div class="mt-3">
+
+                        <!-- Contador de registros --> <div class="mt-3">
                             <asp:Label ID="lblContador" runat="server" 
                                        CssClass="text-muted">
                             </asp:Label>
                         </div>
+                       
                     </div>
                 </div>
             </div>
