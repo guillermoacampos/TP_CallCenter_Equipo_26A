@@ -1,98 +1,3 @@
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\TPCallCenter_Equipo-26A.dll.config
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\TPCallCenter_Equipo-26A.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\TPCallCenter_Equipo-26A.pdb
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\csc.exe
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\csc.exe.config
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\csc.rsp
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\csi.exe
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\csi.exe.config
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\csi.rsp
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.CodeAnalysis.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.CSharp.Core.targets
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.Managed.Core.targets
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.VisualBasic.Core.targets
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\Microsoft.Win32.Primitives.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.AppContext.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Collections.Immutable.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Console.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Diagnostics.StackTrace.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Globalization.Calendars.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.IO.Compression.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.IO.Compression.ZipFile.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.IO.FileSystem.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.IO.FileSystem.Primitives.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Net.Http.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Net.Sockets.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Reflection.Metadata.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Security.Cryptography.Algorithms.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Security.Cryptography.Encoding.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Security.Cryptography.Primitives.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Text.Encoding.CodePages.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Threading.Tasks.Extensions.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.ValueTuple.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Xml.ReaderWriter.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Xml.XmlDocument.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Xml.XPath.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\System.Xml.XPath.XDocument.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\vbc.exe
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\vbc.exe.config
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\vbc.rsp
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\VBCSCompiler.exe
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\VBCSCompiler.exe.config
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Antlr3.Runtime.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Newtonsoft.Json.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Net.Http.Formatting.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Helpers.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Http.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Http.WebHost.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Mvc.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Optimization.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Razor.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.WebPages.Deployment.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.WebPages.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.WebPages.Razor.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\WebGrease.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Newtonsoft.Json.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Net.Http.Formatting.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Helpers.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Http.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Http.WebHost.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Mvc.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Optimization.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Razor.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.WebPages.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.WebPages.Deployment.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.WebPages.Razor.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Antlr3.Runtime.pdb
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Net.Http.Formatting.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Web.Helpers.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Web.Http.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Web.Http.WebHost.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Web.Mvc.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Web.Optimization.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Web.Razor.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Web.WebPages.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Web.WebPages.Deployment.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\es\System.Web.WebPages.Razor.resources.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\obj\Debug\TPCallCenter_Equipo-26A.csproj.AssemblyReference.cache
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\obj\Debug\TPCallCenter_Equipo-26A.csproj.CoreCompileInputs.cache
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\obj\Debug\TPCallCe.A974210F.Up2Date
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\obj\Debug\TPCallCenter_Equipo-26A.dll
-C:\Users\guill\OneDrive\Escritorio\Facultad 2025\Programación 3\ASP.NET\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\obj\Debug\TPCallCenter_Equipo-26A.pdb
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\TPCallCenter_Equipo-26A.dll.config
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\TPCallCenter_Equipo-26A.dll
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\TPCallCenter_Equipo-26A.pdb
@@ -146,8 +51,10 @@ C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPC
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\VBCSCompiler.exe
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Antlr3.Runtime.dll
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\dominio_2.dll
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\negocio.dll
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Newtonsoft.Json.dll
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Net.Http.Formatting.dll
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Helpers.dll
@@ -160,6 +67,8 @@ C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPC
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.WebPages.dll
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.WebPages.Razor.dll
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\WebGrease.dll
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\dominio_2.pdb
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\negocio.pdb
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\Newtonsoft.Json.xml
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Net.Http.Formatting.xml
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\System.Web.Helpers.xml
@@ -188,7 +97,3 @@ C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPC
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\obj\Debug\TPCallCe.A974210F.Up2Date
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\obj\Debug\TPCallCenter_Equipo-26A.dll
 C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\obj\Debug\TPCallCenter_Equipo-26A.pdb
-C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\dominio_2.dll
-C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\negocio.dll
-C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\dominio_2.pdb
-C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\TPCallCenter_Equipo-26A\bin\negocio.pdb

@@ -1,0 +1,68 @@
+@model List<dominio.Clientes>
+
+@{
+    ViewBag.Title = "Gestión de Clientes";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-users"></i> Gestión de Clientes - Call Center</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success">
+                        <strong>Clientes</strong> Listado de clientes
+                    </div>
+                    
+                    <h4>Mensaje:</h4>
+                    <p>@ViewBag.Message</p>
+                    
+                    <h4>Datos de prueba:</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Fecha Alta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Count > 0)
+                                {
+                                    foreach (var cliente in Model)
+                                    {
+                                        <tr>
+                                            <td>@cliente.IDCliente</td>
+                                            <td>@cliente.Nombre</td>
+                                            <td>@cliente.Apellido</td>
+                                            <td>@cliente.Email</td>
+                                            <td>@cliente.Telefono</td>
+                                            <td>@cliente.fechaAlta.ToString("dd/MM/yyyy")</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center">No hay clientes registrados</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-3">
+                        
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Volver al Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
