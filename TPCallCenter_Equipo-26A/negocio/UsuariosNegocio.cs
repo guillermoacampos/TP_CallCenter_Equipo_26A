@@ -16,7 +16,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, fechaAlta FROM Usuarios WHERE Activo = 1");
+                datos.setearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contraseña, IDPerfil, Activo, FechaDeAlta FROM Usuarios WHERE Activo = 1");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -26,13 +26,13 @@ namespace negocio
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
                     aux.Email = (string)datos.Lector["Email"];
-                    aux.Contrasena = (string)datos.Lector["Contrasena"];
+                    aux.Contraseña = (string)datos.Lector["Contraseña"];
                     aux.Perfil = new Perfil
                     {
                         IDPerfil = (int)datos.Lector["IDPerfil"]
                     };
                     aux.Activo = (bool)datos.Lector["Activo"];
-                    aux.fechaAlta = (DateTime)datos.Lector["fechaAlta"];
+                    aux.FechaDeAlta = (DateTime)datos.Lector["FechaDeAlta"];
 
                     lista.Add(aux);
                 }
@@ -56,7 +56,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, fechaAlta FROM Usuarios WHERE IDUsuario = @id AND Activo = 1");
+                datos.setearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contraseña, IDPerfil, Activo, FechaDeAlta FROM Usuarios WHERE IDUsuario = @id AND Activo = 1");
                 datos.setearParametro("@id", id);
                 datos.ejecutarLectura();
 
@@ -67,16 +67,54 @@ namespace negocio
                     usuario.Nombre = (string)datos.Lector["Nombre"];
                     usuario.Apellido = (string)datos.Lector["Apellido"];
                     usuario.Email = (string)datos.Lector["Email"];
-                    usuario.Contrasena = (string)datos.Lector["Contrasena"];
+                    usuario.Contraseña = (string)datos.Lector["Contraseña"];
                     usuario.Perfil = new Perfil
                     {
                         IDPerfil = (int)datos.Lector["IDPerfil"]
                     };
                     usuario.Activo = (bool)datos.Lector["Activo"];
-                    usuario.fechaAlta = (DateTime)datos.Lector["fechaAlta"];
+                    usuario.FechaDeAlta = (DateTime)datos.Lector["FechaDeAlta"];
                 }
 
                 return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public bool Login(Usuarios usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contraseña, IDPerfil, Activo, FechaDeAlta FROM Usuarios WHERE Email = @Email AND Contraseña = @Contraseña AND Activo = 1");
+                datos.setearParametro("@Email", usuario.Email);
+                datos.setearParametro("@Contraseña", usuario.Contraseña);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    usuario.IDUsuario = (int)datos.Lector["IDUsuario"];
+                    usuario.Nombre = (string)datos.Lector["Nombre"];
+                    usuario.Apellido = (string)datos.Lector["Apellido"];
+                    usuario.Perfil = new Perfil
+                    {
+                        IDPerfil = (int)datos.Lector["IDPerfil"]
+                    };
+                    usuario.Activo = (bool)datos.Lector["Activo"];
+                    usuario.FechaDeAlta = (DateTime)datos.Lector["FechaDeAlta"];
+
+                    return true;
+                }
+
+                return false;
             }
             catch (Exception ex)
             {

@@ -12,9 +12,9 @@ namespace dominio
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Email { get; set; }
-        public string Contrasena { get; set; }
+        public string Contraseña { get; set; } // Cambiado de Contrasena a Contraseña
         public Perfil Perfil { get; set; } 
         public bool Activo { get; set; }
-        public DateTime fechaAlta { get; set; }
+        public DateTime FechaDeAlta { get; set; } // Cambiado de fechaAlta a FechaDeAlta
     }
 }

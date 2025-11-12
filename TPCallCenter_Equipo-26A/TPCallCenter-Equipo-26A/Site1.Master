@@ -69,7 +69,7 @@
     <form id="form1" runat="server">
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
-            <div class="bg-dark border-right d-flex flex-column" id="sidebar-wrapper">
+            <div class="bg-dark border-right d-flex flex-column" id="sidebarWrapper" runat="server">
                 <div class="sidebar-heading">Call Center</div>
                 <div class="list-group list-group-flush">
                     <a href="Default.aspx" class="list-group-item list-group-item-action bg-dark text-white">
@@ -85,11 +85,11 @@
                         <i class="fas fa-chart-bar"></i> Reportes
                     </a>
                 </div>
-                <div class="logout">
-                    <a href="Logout.aspx">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </div>
+               <div class="logout">
+    <asp:LinkButton ID="btnLogout" runat="server" OnClick="Logout_Click" CssClass="text-danger">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </asp:LinkButton>
+</div>
             </div>
             <!-- /#sidebar-wrapper -->
 
