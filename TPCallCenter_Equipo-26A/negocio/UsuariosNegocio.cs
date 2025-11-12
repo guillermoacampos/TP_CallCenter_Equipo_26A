@@ -27,7 +27,10 @@ namespace negocio
                     aux.Apellido = (string)datos.Lector["Apellido"];
                     aux.Email = (string)datos.Lector["Email"];
                     aux.Contrasena = (string)datos.Lector["Contrasena"];
-                    aux.IDPerfil = (int)datos.Lector["IDPerfil"];
+                    aux.Perfil = new Perfil
+                    {
+                        IDPerfil = (int)datos.Lector["IDPerfil"]
+                    };
                     aux.Activo = (bool)datos.Lector["Activo"];
                     aux.fechaAlta = (DateTime)datos.Lector["fechaAlta"];
 
@@ -65,7 +68,10 @@ namespace negocio
                     usuario.Apellido = (string)datos.Lector["Apellido"];
                     usuario.Email = (string)datos.Lector["Email"];
                     usuario.Contrasena = (string)datos.Lector["Contrasena"];
-                    usuario.IDPerfil = (int)datos.Lector["IDPerfil"];
+                    usuario.Perfil = new Perfil
+                    {
+                        IDPerfil = (int)datos.Lector["IDPerfil"]
+                    };
                     usuario.Activo = (bool)datos.Lector["Activo"];
                     usuario.fechaAlta = (DateTime)datos.Lector["fechaAlta"];
                 }
