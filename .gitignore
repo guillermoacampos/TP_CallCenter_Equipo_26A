@@ -56,3 +56,9 @@ nunit-*.xml
 # Visual Studio
 .vs/
 /TPCallCenter_Equipo-26A/TPCallCenter_Equipo-26A/Controllers/ClientesApiController.cs
+/TPCallCenter_Equipo-26A/TPCallCenter-Equipo-26A/NuevoCliente.aspx
+/TPCallCenter_Equipo-26A/TPCallCenter-Equipo-26A/NuevoCliente.aspx.cs
+/TPCallCenter_Equipo-26A/TPCallCenter-Equipo-26A/NuevoUsuario.aspx
+/TPCallCenter_Equipo-26A/TPCallCenter-Equipo-26A/NuevoUsuario.aspx.cs
+/TPCallCenter_Equipo-26A/TPCallCenter-Equipo-26A/Usuarios.aspx
+/TPCallCenter_Equipo-26A/TPCallCenter-Equipo-26A/Usuarios.aspx.cs

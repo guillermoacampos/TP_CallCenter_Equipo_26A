@@ -83,5 +83,79 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void agregar(Clientes nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("INSERT INTO Clientes (Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta) VALUES (@Nombre, @Apellido, @Documento, @Email, @Telefono, @Direccion, @Activo, @fechaAlta)");
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Apellido", nuevo.Apellido);
+                datos.setearParametro("@Documento", nuevo.Documento);
+                datos.setearParametro("@Email", nuevo.Email);
+                datos.setearParametro("@Telefono", nuevo.Telefono);
+                datos.setearParametro("@Direccion", nuevo.Direccion);
+                datos.setearParametro("@Activo", nuevo.Activo);
+                datos.setearParametro("@fechaAlta", nuevo.fechaAlta);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificar(Clientes cliente)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Documento = @Documento, Email = @Email, Telefono = @Telefono, Direccion = @Direccion, Activo = @Activo WHERE IDCliente = @IDCliente");
+                datos.setearParametro("@Nombre", cliente.Nombre);
+                datos.setearParametro("@Apellido", cliente.Apellido);
+                datos.setearParametro("@Documento", cliente.Documento);
+                datos.setearParametro("@Email", cliente.Email);
+                datos.setearParametro("@Telefono", cliente.Telefono);
+                datos.setearParametro("@Direccion", cliente.Direccion);
+                datos.setearParametro("@Activo", cliente.Activo);
+                datos.setearParametro("@IDCliente", cliente.IDCliente);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void eliminar(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("DELETE FROM Clientes WHERE IDCliente = @IDCliente");
+                datos.setearParametro("@IDCliente", id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
