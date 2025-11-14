@@ -13,8 +13,8 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDPrioridades, Nombre, Nivel, Descripcion FROM Prioridades");
-                datos.ejecutarLectura();
+                datos.SetearConsulta("SELECT IDPrioridades, Nombre, Nivel, Descripcion FROM Prioridades");
+                datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
@@ -37,7 +37,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -47,11 +47,11 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO Prioridades (Nombre, Nivel, Descripcion) VALUES (@Nombre, @Nivel, @Descripcion)");
-                datos.setearParametro("@Nombre", nuevo.Nombre);
-                datos.setearParametro("@Nivel", nuevo.Nivel);
-                datos.setearParametro("@Descripcion", nuevo.Descripcion);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("INSERT INTO Prioridades (Nombre, Nivel, Descripcion) VALUES (@Nombre, @Nivel, @Descripcion)");
+                datos.SetearParametro("@Nombre", nuevo.Nombre);
+                datos.SetearParametro("@Nivel", nuevo.Nivel);
+                datos.SetearParametro("@Descripcion", nuevo.Descripcion);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -69,12 +69,12 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("UPDATE Prioridades SET Nombre = @Nombre, Nivel = @Nivel, Descripcion = @Descripcion WHERE IDPrioridades = @IDPrioridades");
-                datos.setearParametro("@Nombre", prioridad.Nombre);
-                datos.setearParametro("@Nivel", prioridad.Nivel);
-                datos.setearParametro("@Descripcion", prioridad.Descripcion);
-                datos.setearParametro("@IDPrioridades", prioridad.IDPrioridades);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("UPDATE Prioridades SET Nombre = @Nombre, Nivel = @Nivel, Descripcion = @Descripcion WHERE IDPrioridades = @IDPrioridades");
+                datos.SetearParametro("@Nombre", prioridad.Nombre);
+                datos.SetearParametro("@Nivel", prioridad.Nivel);
+                datos.SetearParametro("@Descripcion", prioridad.Descripcion);
+                datos.SetearParametro("@IDPrioridades", prioridad.IDPrioridades);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -82,7 +82,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -92,9 +92,9 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("DELETE FROM Prioridades WHERE IDPrioridades = @IDPrioridades");
-                datos.setearParametro("@IDPrioridades", id);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("DELETE FROM Prioridades WHERE IDPrioridades = @IDPrioridades");
+                datos.SetearParametro("@IDPrioridades", id);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -102,7 +102,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
     }

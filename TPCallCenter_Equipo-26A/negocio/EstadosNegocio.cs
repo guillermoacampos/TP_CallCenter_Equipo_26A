@@ -13,8 +13,8 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDEstado, Descripcion FROM Estados");
-                datos.ejecutarLectura();
+                datos.SetearConsulta("SELECT IDEstado, Descripcion FROM Estados");
+                datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
@@ -35,7 +35,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -45,9 +45,9 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO Estados (Descripcion) VALUES (@Descripcion)");
-                datos.setearParametro("@Descripcion", nuevo.Descripcion);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("INSERT INTO Estados (Descripcion) VALUES (@Descripcion)");
+                datos.SetearParametro("@Descripcion", nuevo.Descripcion);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -65,10 +65,10 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("UPDATE Estados SET Descripcion = @Descripcion WHERE IDEstado = @IDEstado");
-                datos.setearParametro("@Descripcion", estado.Descripcion);
-                datos.setearParametro("@IDEstado", estado.IDEstado);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("UPDATE Estados SET Descripcion = @Descripcion WHERE IDEstado = @IDEstado");
+                datos.SetearParametro("@Descripcion", estado.Descripcion);
+                datos.SetearParametro("@IDEstado", estado.IDEstado);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -86,9 +86,9 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("DELETE FROM Estados WHERE IDEstado = @IDEstado");
-                datos.setearParametro("@IDEstado", id);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("DELETE FROM Estados WHERE IDEstado = @IDEstado");
+                datos.SetearParametro("@IDEstado", id);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
     }

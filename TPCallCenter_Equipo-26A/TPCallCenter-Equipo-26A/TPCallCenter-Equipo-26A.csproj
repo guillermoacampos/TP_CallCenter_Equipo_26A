@@ -70,11 +70,14 @@
     <Content Include="Clientes.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="DetalleIncidente.aspx" />
+    <Content Include="Error.aspx" />
     <Content Include="GestionIncidentes.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="NuevoCliente.aspx" />
     <Content Include="NuevoIncidente.aspx" />
     <Content Include="NuevoUsuario.aspx" />
+    <Content Include="Scripts\jquery-3.7.0.slim.js" />
     <Content Include="Usuarios.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -100,6 +103,13 @@
     <Compile Include="DetalleIncidente.aspx.designer.cs">
       <DependentUpon>DetalleIncidente.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="GestionIncidentes.aspx.cs">
       <DependentUpon>GestionIncidentes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -118,6 +128,10 @@
       <DependentUpon>NuevoCliente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="NuevoCliente.aspx.designer.cs">
+      <DependentUpon>NuevoCliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NuevoCliente.designer.cs" />
     <Compile Include="NuevoIncidente.aspx.cs">
       <DependentUpon>NuevoIncidente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

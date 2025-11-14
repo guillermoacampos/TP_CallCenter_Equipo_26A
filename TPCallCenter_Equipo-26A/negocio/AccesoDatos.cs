@@ -15,20 +15,14 @@ namespace negocio
             get { return lector; }
         }
 
-        
         public AccesoDatos()
         {
             //db niki: 
-            //conexion = new SqlConnection("server=(localdb)\\MSSQLLocalDB; database=CallCenter; integrated security=true");
-
-            //db guillermo: 
-            conexion = new SqlConnection("server=localhost,1433; database=CallCenter; user=sa;PASSWORD=Doc39805119");
-            comando = new SqlCommand();
-
-           comando.Connection = conexion;
+            conexion = new SqlConnection("server=(localdb)\\MSSQLLocalDB; database=CallCenter; integrated security=true");
+            comando = new SqlCommand { Connection = conexion };
         }
 
-        public void setearConsulta(string consulta)
+        public void SetearConsulta(string consulta)
         {
             if (comando == null)
                 comando = new SqlCommand();
@@ -43,7 +37,7 @@ namespace negocio
                 comando.Connection = conexion;
         }
 
-        public void ejecutarLectura()
+        public void EjecutarLectura()
         {
             try
             {
@@ -65,7 +59,7 @@ namespace negocio
             }
         }
 
-        public void ejecutarAccion()
+        public void EjecutarAccion()
         {
             try
             {
@@ -86,7 +80,7 @@ namespace negocio
             }
         }
 
-        public int ejecutarScalar()
+        public int EjecutarScalar()
         {
             try
             {
@@ -111,7 +105,7 @@ namespace negocio
             }
         }
 
-        public void setearParametro(string nombre, object valor)
+        public void SetearParametro(string nombre, object valor)
         {
             if (comando == null)
                 comando = new SqlCommand();
@@ -123,7 +117,7 @@ namespace negocio
                 comando.Parameters.AddWithValue(nombre, valor);
         }
 
-        public void cerrarConexion()
+        public void CerrarConexion()
         {
             // cerrar lector si existe
             try

@@ -13,8 +13,8 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDTipoIncidencia, Nombre, Descripcion FROM TiposDeIncidencia");
-                datos.ejecutarLectura();
+                datos.SetearConsulta("SELECT IDTipoIncidencia, Nombre, Descripcion FROM TiposDeIncidencia");
+                datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
@@ -36,7 +36,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -46,10 +46,10 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO TiposDeIncidencia (Nombre, Descripcion) VALUES (@Nombre, @Descripcion)");
-                datos.setearParametro("@Nombre", nuevo.Nombre);
-                datos.setearParametro("@Descripcion", nuevo.Descripcion);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("INSERT INTO TiposDeIncidencia (Nombre, Descripcion) VALUES (@Nombre, @Descripcion)");
+                datos.SetearParametro("@Nombre", nuevo.Nombre);
+                datos.SetearParametro("@Descripcion", nuevo.Descripcion);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -67,11 +67,11 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("UPDATE TiposDeIncidencia SET Nombre = @Nombre, Descripcion = @Descripcion WHERE IDTipoIncidencia = @IDTipoIncidencia");
-                datos.setearParametro("@Nombre", tipo.Nombre);
-                datos.setearParametro("@Descripcion", tipo.Descripcion);
-                datos.setearParametro("@IDTipoIncidencia", tipo.IDTipoIncidencia);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("UPDATE TiposDeIncidencia SET Nombre = @Nombre, Descripcion = @Descripcion WHERE IDTipoIncidencia = @IDTipoIncidencia");
+                datos.SetearParametro("@Nombre", tipo.Nombre);
+                datos.SetearParametro("@Descripcion", tipo.Descripcion);
+                datos.SetearParametro("@IDTipoIncidencia", tipo.IDTipoIncidencia);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -79,7 +79,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -89,9 +89,9 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("DELETE FROM TiposDeIncidencia WHERE IDTipoIncidencia = @IDTipoIncidencia");
-                datos.setearParametro("@IDTipoIncidencia", id);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("DELETE FROM TiposDeIncidencia WHERE IDTipoIncidencia = @IDTipoIncidencia");
+                datos.SetearParametro("@IDTipoIncidencia", id);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
     }

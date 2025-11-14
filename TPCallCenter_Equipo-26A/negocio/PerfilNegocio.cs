@@ -13,8 +13,8 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDPerfil, Nombre, Descripcion FROM Perfiles");
-                datos.ejecutarLectura();
+                datos.SetearConsulta("SELECT IDPerfil, Nombre, Descripcion FROM Perfiles");
+                datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
@@ -36,7 +36,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -46,10 +46,10 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("INSERT INTO Perfiles (Nombre, Descripcion) VALUES (@Nombre, @Descripcion)");
-                datos.setearParametro("@Nombre", nuevo.Nombre);
-                datos.setearParametro("@Descripcion", nuevo.Descripcion);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("INSERT INTO Perfiles (Nombre, Descripcion) VALUES (@Nombre, @Descripcion)");
+                datos.SetearParametro("@Nombre", nuevo.Nombre);
+                datos.SetearParametro("@Descripcion", nuevo.Descripcion);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -67,11 +67,11 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("UPDATE Perfiles SET Nombre = @Nombre, Descripcion = @Descripcion WHERE IDPerfil = @IDPerfil");
-                datos.setearParametro("@Nombre", perfil.Nombre);
-                datos.setearParametro("@Descripcion", perfil.Descripcion);
-                datos.setearParametro("@IDPerfil", perfil.IDPerfil);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("UPDATE Perfiles SET Nombre = @Nombre, Descripcion = @Descripcion WHERE IDPerfil = @IDPerfil");
+                datos.SetearParametro("@Nombre", perfil.Nombre);
+                datos.SetearParametro("@Descripcion", perfil.Descripcion);
+                datos.SetearParametro("@IDPerfil", perfil.IDPerfil);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -79,7 +79,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -89,9 +89,9 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("DELETE FROM Perfiles WHERE IDPerfil = @IDPerfil");
-                datos.setearParametro("@IDPerfil", id);
-                datos.ejecutarAccion();
+                datos.SetearConsulta("DELETE FROM Perfiles WHERE IDPerfil = @IDPerfil");
+                datos.SetearParametro("@IDPerfil", id);
+                datos.EjecutarAccion();
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
     }

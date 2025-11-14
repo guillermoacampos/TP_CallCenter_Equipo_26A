@@ -16,8 +16,8 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, fechaAlta FROM Usuarios WHERE Activo = 1");
-                datos.ejecutarLectura();
+                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, FechaAlta FROM Usuarios WHERE Activo = 1");
+                datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
@@ -32,7 +32,7 @@ namespace negocio
                         IDPerfil = (int)datos.Lector["IDPerfil"]
                     };
                     aux.Activo = (bool)datos.Lector["Activo"];
-                    aux.fechaAlta = (DateTime)datos.Lector["fechaAlta"];
+                    aux.FechaAlta = (DateTime)datos.Lector["FechaAlta"];
 
                     lista.Add(aux);
                 }
@@ -45,7 +45,7 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
         }
 
@@ -56,9 +56,9 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, fechaAlta FROM Usuarios WHERE IDUsuario = @id AND Activo = 1");
-                datos.setearParametro("@id", id);
-                datos.ejecutarLectura();
+                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, FechaAlta FROM Usuarios WHERE IDUsuario = @id AND Activo = 1");
+                datos.SetearParametro("@id", id);
+                datos.EjecutarLectura();
 
                 if (datos.Lector.Read())
                 {
@@ -73,7 +73,7 @@ namespace negocio
                         IDPerfil = (int)datos.Lector["IDPerfil"]
                     };
                     usuario.Activo = (bool)datos.Lector["Activo"];
-                    usuario.fechaAlta = (DateTime)datos.Lector["fechaAlta"];
+                    usuario.FechaAlta = (DateTime)datos.Lector["FechaAlta"];
                 }
 
                 return usuario;
@@ -84,7 +84,79 @@ namespace negocio
             }
             finally
             {
-                datos.cerrarConexion();
+                datos.CerrarConexion();
+            }
+        }
+
+        public void agregar(Usuarios nuevo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("INSERT INTO Usuarios (Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, FechaAlta) VALUES (@Nombre, @Apellido, @Email, @Contrasena, @IDPerfil, @Activo, @FechaAlta)");
+                datos.SetearParametro("@Nombre", nuevo.Nombre);
+                datos.SetearParametro("@Apellido", nuevo.Apellido);
+                datos.SetearParametro("@Email", nuevo.Email);
+                datos.SetearParametro("@Contrasena", nuevo.Contrasena);
+                datos.SetearParametro("@IDPerfil", nuevo.Perfil.IDPerfil);
+                datos.SetearParametro("@Activo", nuevo.Activo);
+                datos.SetearParametro("@FechaAlta", nuevo.FechaAlta);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public void modificar(Usuarios usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("UPDATE Usuarios SET Nombre = @Nombre, Apellido = @Apellido, Email = @Email, Contrasena = @Contrasena, IDPerfil = @IDPerfil, Activo = @Activo WHERE IDUsuario = @IDUsuario");
+                datos.SetearParametro("@Nombre", usuario.Nombre);
+                datos.SetearParametro("@Apellido", usuario.Apellido);
+                datos.SetearParametro("@Email", usuario.Email);
+                datos.SetearParametro("@Contrasena", usuario.Contrasena);
+                datos.SetearParametro("@IDPerfil", usuario.Perfil.IDPerfil);
+                datos.SetearParametro("@Activo", usuario.Activo);
+                datos.SetearParametro("@IDUsuario", usuario.IDUsuario);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public void eliminar(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("DELETE FROM Usuarios WHERE IDUsuario = @IDUsuario");
+                datos.SetearParametro("@IDUsuario", id);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
             }
         }
     }
