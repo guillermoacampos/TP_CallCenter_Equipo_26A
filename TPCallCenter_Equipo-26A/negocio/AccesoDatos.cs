@@ -19,7 +19,13 @@ namespace negocio
         {
             //db niki: 
             conexion = new SqlConnection("server=(localdb)\\MSSQLLocalDB; database=CallCenter; integrated security=true");
+
+            //db guillermo: 
+            //conexion = new SqlConnection("server=localhost,1433; database=CallCenter; user=sa;PASSWORD=Doc39805119");
+
             comando = new SqlCommand { Connection = conexion };
+
+
         }
 
         public void SetearConsulta(string consulta)
