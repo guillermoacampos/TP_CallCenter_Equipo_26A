@@ -5,82 +5,94 @@ namespace TPCallCenter_Equipo_26A
 {
     public partial class NuevoCliente : System.Web.UI.Page
     {
-        // DECLARACIONES MANUALES DE CONTROLES (evitan crear .designer.cs)
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl titulo;
-        protected global::System.Web.UI.WebControls.ValidationSummary ValidationSummary1;
-        protected global::System.Web.UI.WebControls.Label lblNombre;
-        protected global::System.Web.UI.WebControls.TextBox txtNombre;
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqNombre;
-        protected global::System.Web.UI.WebControls.Label lblApellido;
-        protected global::System.Web.UI.WebControls.TextBox txtApellido;
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator reqApellido;
-        protected global::System.Web.UI.WebControls.Label lblDocumento;
-        protected global::System.Web.UI.WebControls.TextBox txtDocumento;
-        protected global::System.Web.UI.WebControls.Label lblEmail;
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
-        protected global::System.Web.UI.WebControls.Label lblTelefono;
-        protected global::System.Web.UI.WebControls.TextBox txtTelefono;
-        protected global::System.Web.UI.WebControls.Label lblDireccion;
-        protected global::System.Web.UI.WebControls.TextBox txtDireccion;
-        protected global::System.Web.UI.WebControls.Button btnGuardar;
-        protected global::System.Web.UI.WebControls.Button btnCancelar;
-
-        private ClientesNegocio negocio = new ClientesNegocio();
+        private readonly ClientesNegocio negocio = new ClientesNegocio();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                if (Request.QueryString["id"] != null)
+                try
                 {
-                    int id;
-                    if (int.TryParse(Request.QueryString["id"], out id))
+                    if (Request.QueryString["id"] != null)
                     {
-                        CargarCliente(id);
-                        if (titulo != null) titulo.InnerText = "Editar Cliente";
+                        if (int.TryParse(Request.QueryString["id"], out int id))
+                        {
+                            CargarCliente(id);
+                        }
+                        else
+                        {
+                            Response.Redirect("Clientes.aspx", false);
+                        }
                     }
-                    else
-                    {
-                        Response.Redirect("Clientes.aspx");
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Session.Add("error", ex.Message);
+                    Response.Redirect("Error.aspx", false);
                 }
             }
         }
 
         private void CargarCliente(int id)
         {
-            var cliente = negocio.obtenerPorId(id);
-            if (cliente != null)
+            try
             {
-                txtNombre.Text = cliente.Nombre;
-                txtApellido.Text = cliente.Apellido;
-                txtDocumento.Text = cliente.Documento;
-                txtEmail.Text = cliente.Email;
-                txtTelefono.Text = cliente.Telefono;
-                txtDireccion.Text = cliente.Direccion;
-                ViewState["IDCliente"] = cliente.IDCliente;
+                var cliente = negocio.obtenerPorId(id);
+                if (cliente != null)
+                {
+                    txtNombre.Text = cliente.Nombre;
+                    txtApellido.Text = cliente.Apellido;
+                    txtDocumento.Text = cliente.Documento;
+                    txtEmail.Text = cliente.Email;
+                    txtTelefono.Text = cliente.Telefono;
+                    txtDireccion.Text = cliente.Direccion;
+                    ViewState["IDCliente"] = cliente.IDCliente;
+                }
+                else
+                {
+                    Response.Redirect("Clientes.aspx", false);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Response.Redirect("Clientes.aspx");
+                Session.Add("error", ex.Message);
+                Response.Redirect("Error.aspx", false);
             }
         }
 
-        protected void btnGuardar_Click(object sender, EventArgs e)
+        protected void BtnGuardar_Click(object sender, EventArgs e)
         {
-            if (!Page.IsValid) return;
-
             try
             {
-                dominio.Clientes cliente = new dominio.Clientes();
-                cliente.Nombre = txtNombre.Text.Trim();
-                cliente.Apellido = txtApellido.Text.Trim();
-                cliente.Documento = txtDocumento.Text.Trim();
-                cliente.Email = txtEmail.Text.Trim();
-                cliente.Telefono = txtTelefono.Text.Trim();
-                cliente.Direccion = txtDireccion.Text.Trim();
-                cliente.Activo = true;
-                cliente.fechaAlta = DateTime.Now;
+                if (!Page.IsValid)
+                {
+                    Response.Write("<script>alert('Por favor, complete todos los campos requeridos.');</script>");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtDocumento.Text))
+                {
+                    Response.Write("<script>alert('El campo Documento es obligatorio.');</script>");
+                    return;
+                }
+
+                if (txtDocumento.Text.Length > 8)
+                {
+                    Response.Write("<script>alert('El campo Documento no puede tener más de 8 caracteres.');</script>");
+                    return;
+                }
+
+                dominio.Clientes cliente = new dominio.Clientes
+                {
+                    Nombre = txtNombre.Text.Trim(),
+                    Apellido = txtApellido.Text.Trim(),
+                    Documento = txtDocumento.Text.Trim(),
+                    Email = txtEmail.Text.Trim(),
+                    Telefono = txtTelefono.Text.Trim(),
+                    Direccion = txtDireccion.Text.Trim(),
+                    Activo = true,
+                    fechaAlta = DateTime.Now
+                };
 
                 if (ViewState["IDCliente"] != null)
                 {
@@ -92,17 +104,18 @@ namespace TPCallCenter_Equipo_26A
                     negocio.agregar(cliente);
                 }
 
-                Response.Redirect("Clientes.aspx");
+                Response.Redirect("Clientes.aspx", false);
             }
             catch (Exception ex)
             {
-                Response.Write("<script>alert('Error al guardar: " + ex.Message.Replace("'", "") + "');</script>");
+                Session.Add("error", ex.Message);
+                Response.Redirect("Error.aspx", false);
             }
         }
 
-        protected void btnCancelar_Click(object sender, EventArgs e)
+        protected void BtnCancelar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Clientes.aspx");
+            Response.Redirect("Clientes.aspx", false);
         }
     }
 }

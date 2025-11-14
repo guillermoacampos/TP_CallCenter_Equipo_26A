@@ -15,6 +15,6 @@ namespace dominio
         public string Contrasena { get; set; }
         public Perfil Perfil { get; set; } 
         public bool Activo { get; set; }
-        public DateTime fechaAlta { get; set; }
+        public DateTime FechaAlta { get; set; }
     }
 }

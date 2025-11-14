@@ -30,7 +30,9 @@
                         </div>
                         <div class="form-group">
                             <asp:Label ID="lblDocumento" runat="server" Text="Documento"></asp:Label>
-                            <asp:TextBox ID="txtDocumento" runat="server" CssClass="form-control"></asp:TextBox>
+                            <asp:TextBox ID="txtDocumento" runat="server" CssClass="form-control" MaxLength="8"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="reqDocumento" runat="server" ControlToValidate="txtDocumento" ErrorMessage="Documento requerido" CssClass="text-danger" />
+                            <asp:RegularExpressionValidator ID="regexDocumento" runat="server" ControlToValidate="txtDocumento" ErrorMessage="El Documento no puede exceder los 8 caracteres." ValidationExpression="^.{1,8}$" CssClass="text-danger" />
                         </div>
                         <div class="form-group">
                             <asp:Label ID="lblEmail" runat="server" Text="Email"></asp:Label>
@@ -46,8 +48,8 @@
                         </div>
 
                         <div class="form-actions">
-                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="btnGuardar_Click" />
-                            <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" OnClick="btnCancelar_Click" />
+                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-success" OnClick="BtnGuardar_Click" />
+                            <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" OnClick="BtnCancelar_Click" />
                         </div>
 
                     </div>

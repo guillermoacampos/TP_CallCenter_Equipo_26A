@@ -12,8 +12,8 @@ namespace negocio
 
             using (AccesoDatos datos = new AccesoDatos())
             {
-                datos.setearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta FROM Clientes WHERE Activo = 1");
-                datos.ejecutarLectura();
+                datos.SetearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta FROM Clientes WHERE Activo = 1");
+                datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
@@ -32,7 +32,7 @@ namespace negocio
                     lista.Add(aux);
                 }
 
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
 
             return lista;
@@ -44,9 +44,9 @@ namespace negocio
 
             using (AccesoDatos datos = new AccesoDatos())
             {
-                datos.setearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta FROM Clientes WHERE IDCliente = @id AND Activo = 1");
-                datos.setearParametro("@id", id);
-                datos.ejecutarLectura();
+                datos.SetearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta FROM Clientes WHERE IDCliente = @id AND Activo = 1");
+                datos.SetearParametro("@id", id);
+                datos.EjecutarLectura();
 
                 if (datos.Lector.Read())
                 {
@@ -62,7 +62,7 @@ namespace negocio
                     cliente.fechaAlta = datos.Lector["fechaAlta"] != DBNull.Value ? Convert.ToDateTime(datos.Lector["fechaAlta"]) : DateTime.MinValue;
                 }
 
-                datos.cerrarConexion();
+                datos.CerrarConexion();
             }
 
             return cliente;
@@ -70,51 +70,75 @@ namespace negocio
 
         public void agregar(Clientes nuevo)
         {
-            using (AccesoDatos datos = new AccesoDatos())
-            {
-                datos.setearConsulta("INSERT INTO Clientes (Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta) VALUES (@Nombre, @Apellido, @Documento, @Email, @Telefono, @Direccion, @Activo, @fechaAlta)");
-                datos.setearParametro("@Nombre", string.IsNullOrWhiteSpace(nuevo.Nombre) ? null : nuevo.Nombre);
-                datos.setearParametro("@Apellido", string.IsNullOrWhiteSpace(nuevo.Apellido) ? null : nuevo.Apellido);
-                datos.setearParametro("@Documento", string.IsNullOrWhiteSpace(nuevo.Documento) ? null : nuevo.Documento);
-                datos.setearParametro("@Email", string.IsNullOrWhiteSpace(nuevo.Email) ? null : nuevo.Email);
-                datos.setearParametro("@Telefono", string.IsNullOrWhiteSpace(nuevo.Telefono) ? null : nuevo.Telefono);
-                datos.setearParametro("@Direccion", string.IsNullOrWhiteSpace(nuevo.Direccion) ? null : nuevo.Direccion);
-                datos.setearParametro("@Activo", nuevo.Activo);
-                datos.setearParametro("@fechaAlta", nuevo.fechaAlta == DateTime.MinValue ? DateTime.Now : nuevo.fechaAlta);
+            AccesoDatos datos = new AccesoDatos();
 
-                datos.ejecutarAccion();
-                datos.cerrarConexion();
+            try
+            {
+                datos.SetearConsulta("INSERT INTO Clientes (Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, FechaAlta) VALUES (@Nombre, @Apellido, @Documento, @Email, @Telefono, @Direccion, @Activo, @FechaAlta)");
+                datos.SetearParametro("@Nombre", nuevo.Nombre);
+                datos.SetearParametro("@Apellido", nuevo.Apellido);
+                datos.SetearParametro("@Documento", nuevo.Documento);
+                datos.SetearParametro("@Email", nuevo.Email);
+                datos.SetearParametro("@Telefono", nuevo.Telefono);
+                datos.SetearParametro("@Direccion", nuevo.Direccion);
+                datos.SetearParametro("@Activo", nuevo.Activo);
+                datos.SetearParametro("@FechaAlta", nuevo.fechaAlta);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
             }
         }
 
         public void modificar(Clientes cliente)
         {
-            using (AccesoDatos datos = new AccesoDatos())
-            {
-                datos.setearConsulta("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Documento = @Documento, Email = @Email, Telefono = @Telefono, Direccion = @Direccion, Activo = @Activo WHERE IDCliente = @IDCliente");
-                datos.setearParametro("@Nombre", string.IsNullOrWhiteSpace(cliente.Nombre) ? null : cliente.Nombre);
-                datos.setearParametro("@Apellido", string.IsNullOrWhiteSpace(cliente.Apellido) ? null : cliente.Apellido);
-                datos.setearParametro("@Documento", string.IsNullOrWhiteSpace(cliente.Documento) ? null : cliente.Documento);
-                datos.setearParametro("@Email", string.IsNullOrWhiteSpace(cliente.Email) ? null : cliente.Email);
-                datos.setearParametro("@Telefono", string.IsNullOrWhiteSpace(cliente.Telefono) ? null : cliente.Telefono);
-                datos.setearParametro("@Direccion", string.IsNullOrWhiteSpace(cliente.Direccion) ? null : cliente.Direccion);
-                datos.setearParametro("@Activo", cliente.Activo);
-                datos.setearParametro("@IDCliente", cliente.IDCliente);
+            AccesoDatos datos = new AccesoDatos();
 
-                datos.ejecutarAccion();
-                datos.cerrarConexion();
+            try
+            {
+                datos.SetearConsulta("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Documento = @Documento, Email = @Email, Telefono = @Telefono, Direccion = @Direccion, Activo = @Activo WHERE IDCliente = @IDCliente");
+                datos.SetearParametro("@Nombre", cliente.Nombre);
+                datos.SetearParametro("@Apellido", cliente.Apellido);
+                datos.SetearParametro("@Documento", cliente.Documento);
+                datos.SetearParametro("@Email", cliente.Email);
+                datos.SetearParametro("@Telefono", cliente.Telefono);
+                datos.SetearParametro("@Direccion", cliente.Direccion);
+                datos.SetearParametro("@Activo", cliente.Activo);
+                datos.SetearParametro("@IDCliente", cliente.IDCliente);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
             }
         }
 
-        // Baja lógica (coherente con listar() que filtra Activo = 1)
         public void eliminar(int id)
         {
-            using (AccesoDatos datos = new AccesoDatos())
+            AccesoDatos datos = new AccesoDatos();
+
+            try
             {
-                datos.setearConsulta("UPDATE Clientes SET Activo = 0 WHERE IDCliente = @IDCliente");
-                datos.setearParametro("@IDCliente", id);
-                datos.ejecutarAccion();
-                datos.cerrarConexion();
+                datos.SetearConsulta("UPDATE Clientes SET Activo = 0 WHERE IDCliente = @IDCliente");
+                datos.SetearParametro("@IDCliente", id);
+                datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
             }
         }
     }
