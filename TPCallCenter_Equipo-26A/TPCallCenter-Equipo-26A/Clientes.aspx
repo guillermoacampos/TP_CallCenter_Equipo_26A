@@ -103,7 +103,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h3><i class="fas fa-users"></i> Gestión de Clientes - Web Forms</h3>
+                        <h3><i class="fas fa-users"></i> Gestión de Clientes - Call Center</h3>
                         <div>
                             <asp:Button ID="btnNuevo" runat="server" Text="Nuevo Cliente" CssClass="btn btn-primary btn-action" OnClick="btnNuevo_Click" />
                         </div>
