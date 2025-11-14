@@ -1,111 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using negocio;
-using dominio;
 
 namespace TPCallCenter_Equipo_26A
 {
     public partial class Clientes : System.Web.UI.Page
     {
-        private ClientesNegocio clientesNegocio = new ClientesNegocio();
+        private ClientesNegocio negocio = new ClientesNegocio();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                // Cargar clientes al inicio
-                CargarClientes();
+                BindGrid();
             }
         }
 
-        protected void btnCargarClientes_Click(object sender, EventArgs e)
+        private void BindGrid()
         {
-            CargarClientes();
-        }
-
-        protected void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            gvClientes.DataSource = null;
+            var lista = negocio.listar();
+            gvClientes.DataSource = lista;
             gvClientes.DataBind();
-            lblMensaje.Text = "Lista de clientes limpiada";
-            lblMensaje.CssClass = "alert alert-warning d-block";
-            lblContador.Text = "";
+
+            if (lblContador != null)
+                lblContador.Text = $"Total de clientes: {(lista != null ? lista.Count : 0)}";
         }
 
-        protected void btnNuevoCliente_Click(object sender, EventArgs e)
+        protected void btnNuevo_Click(object sender, EventArgs e)
         {
-            lblMensaje.Text = "Funcionalidad 'Nuevo Cliente' pendiente de implementación";
-            lblMensaje.CssClass = "alert alert-info d-block";
+            Response.Redirect("NuevoCliente.aspx");
         }
 
-        protected void btnExportar_Click(object sender, EventArgs e)
+        protected void gvClientes_PageIndexChanging(object sender, System.Web.UI.WebControls.GridViewPageEventArgs e)
         {
-            lblMensaje.Text = "Exportando datos... (Funcionalidad pendiente)";
-            lblMensaje.CssClass = "alert alert-info d-block";
+            gvClientes.PageIndex = e.NewPageIndex;
+            BindGrid();
         }
 
-        protected void btnVer_Click(object sender, EventArgs e)
+        protected void gvClientes_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
         {
-            Button btn = (Button)sender;
-            string idCliente = btn.CommandArgument;
-            lblMensaje.Text = $"Mostrando detalles del cliente ID: {idCliente}";
-            lblMensaje.CssClass = "alert alert-info d-block";
-        }
-
-        protected void btnEditar_Click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            string idCliente = btn.CommandArgument;
-            lblMensaje.Text = $"Editando cliente ID: {idCliente} (funcionalidad pendiente)";
-            lblMensaje.CssClass = "alert alert-info d-block";
-        }
-
-        protected void btnEliminar_Click(object sender, EventArgs e)
-        {
-            Button btn = (Button)sender;
-            string idCliente = btn.CommandArgument;
-            lblMensaje.Text = $"Cliente ID: {idCliente} eliminado (simulado)";
-            lblMensaje.CssClass = "alert alert-danger d-block";
-            
-            // Recargar la lista
-            CargarClientes();
-        }
-
-        private void CargarClientes()
-        {
-            try
+            if (e.CommandName == "Editar")
             {
-                // Usar el namespace completo para evitar conflictos
-                List<dominio.Clientes> clientes = clientesNegocio?.listar();
-
-                if (clientes == null || clientes.Count == 0)
-                {
-                    gvClientes.DataSource = null;
-                    gvClientes.DataBind();
-                    lblMensaje.Text = "No se encontraron clientes.";
-                    lblMensaje.CssClass = "alert alert-warning d-block";
-                    lblContador.Text = "";
-                    return;
-                }
-
-                gvClientes.DataSource = clientes;
-                gvClientes.DataBind();
-
-                // Actualizar contador
-                lblContador.Text = $"Total de clientes: {clientes.Count}";
+                int id = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect($"NuevoCliente.aspx?id={id}");
             }
-            catch (Exception ex)
+            else if (e.CommandName == "Eliminar")
             {
-                // Manejo de errores
-                lblMensaje.Text = $"Error al cargar clientes: {ex.Message}";
-                lblMensaje.CssClass = "alert alert-danger d-block";
-                gvClientes.DataSource = null;
-                gvClientes.DataBind();
-                lblContador.Text = "";
+                int id = Convert.ToInt32(e.CommandArgument);
+                try
+                {
+                    negocio.eliminar(id); // baja lógica
+                    BindGrid();
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("<script>alert('Error al eliminar: " + ex.Message.Replace("'", "") + "');</script>");
+                }
             }
         }
     }

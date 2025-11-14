@@ -104,6 +104,9 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h3><i class="fas fa-users"></i> Gestión de Clientes - Web Forms</h3>
+                        <div>
+                            <asp:Button ID="btnNuevo" runat="server" Text="Nuevo Cliente" CssClass="btn btn-primary btn-action" OnClick="btnNuevo_Click" />
+                        </div>
                     </div>
                     <div class="card-body">
                         <!-- GridView de clientes -->
@@ -111,7 +114,10 @@
                                       CssClass="table table-striped table-bordered"
                                       AutoGenerateColumns="false"
                                       EmptyDataText="No hay clientes para mostrar"
-                                      HeaderStyle-CssClass="table-dark">
+                                      HeaderStyle-CssClass="table-dark"
+                                      AllowPaging="True" PageSize="10"
+                                      OnPageIndexChanging="gvClientes_PageIndexChanging"
+                                      OnRowCommand="gvClientes_RowCommand">
                             <Columns>
                                 <asp:BoundField DataField="IDCliente" HeaderText="ID" 
                                                 ItemStyle-Width="80px" />
@@ -123,19 +129,27 @@
                                                 DataFormatString="{0:dd/MM/yyyy}" />
                                 <asp:TemplateField HeaderText="Estado">
                                     <ItemTemplate>
-                                        <asp:Label ID="lblEstado" runat="server" 
-                                                   Text='<%# (bool)Eval("Activo") ? "Activo" : "Inactivo" %>'
-                                                   CssClass='<%# (bool)Eval("Activo") ? "badge bg-success" : "badge bg-danger" %>'>
+                                        <asp:Label ID="lblEstado" runat="server"
+                                                   Text='<%# Eval("Activo") != DBNull.Value && (bool)Eval("Activo") ? "Activo" : "Inactivo" %>'
+                                                   CssClass='<%# Eval("Activo") != DBNull.Value && (bool)Eval("Activo") ? "badge bg-success" : "badge bg-danger" %>'>
                                         </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+
+                                <%-- Acciones (Editar / Eliminar) --%>
+                                <asp:TemplateField HeaderText="Acciones">
+                                    <ItemTemplate>
+                                        <asp:Button ID="btnEditar" runat="server" Text="Editar" CommandName="Editar" CommandArgument='<%# Eval("IDCliente") %>' CssClass="btn btn-sm btn-warning btn-action" />
+                                        <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CommandName="Eliminar" CommandArgument='<%# Eval("IDCliente") %>' CssClass="btn btn-sm btn-danger btn-action" OnClientClick="return confirm('¿Eliminar cliente?');" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
                             </Columns>
                         </asp:GridView>
 
-                        <!-- Contador de registros --> <div class="mt-3">
-                            <asp:Label ID="lblContador" runat="server" 
-                                       CssClass="text-muted">
-                            </asp:Label>
+                        <!-- Contador de registros -->
+                        <div class="mt-3">
+                            <asp:Label ID="lblContador" runat="server" CssClass="text-muted"></asp:Label>
                         </div>
                        
                     </div>

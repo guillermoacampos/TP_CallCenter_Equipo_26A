@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using dominio;
 
 namespace negocio
@@ -12,9 +9,8 @@ namespace negocio
         public List<Clientes> listar()
         {
             List<Clientes> lista = new List<Clientes>();
-            AccesoDatos datos = new AccesoDatos();
 
-            try
+            using (AccesoDatos datos = new AccesoDatos())
             {
                 datos.setearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta FROM Clientes WHERE Activo = 1");
                 datos.ejecutarLectura();
@@ -22,37 +18,31 @@ namespace negocio
                 while (datos.Lector.Read())
                 {
                     Clientes aux = new Clientes();
-                    aux.IDCliente = (int)datos.Lector["IDCliente"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Documento = (string)datos.Lector["Documento"];
-                    aux.Email = (string)datos.Lector["Email"];
-                    aux.Telefono = (string)datos.Lector["Telefono"];
-                    aux.Direccion = (string)datos.Lector["Direccion"];
-                    aux.Activo = (bool)datos.Lector["Activo"];
-                    aux.fechaAlta = (DateTime)datos.Lector["fechaAlta"];
+
+                    aux.IDCliente = datos.Lector["IDCliente"] != DBNull.Value ? Convert.ToInt32(datos.Lector["IDCliente"]) : 0;
+                    aux.Nombre = datos.Lector["Nombre"] != DBNull.Value ? datos.Lector["Nombre"].ToString() : null;
+                    aux.Apellido = datos.Lector["Apellido"] != DBNull.Value ? datos.Lector["Apellido"].ToString() : null;
+                    aux.Documento = datos.Lector["Documento"] != DBNull.Value ? datos.Lector["Documento"].ToString() : null;
+                    aux.Email = datos.Lector["Email"] != DBNull.Value ? datos.Lector["Email"].ToString() : null;
+                    aux.Telefono = datos.Lector["Telefono"] != DBNull.Value ? datos.Lector["Telefono"].ToString() : null;
+                    aux.Direccion = datos.Lector["Direccion"] != DBNull.Value ? datos.Lector["Direccion"].ToString() : null;
+                    aux.Activo = datos.Lector["Activo"] != DBNull.Value ? Convert.ToBoolean(datos.Lector["Activo"]) : false;
+                    aux.fechaAlta = datos.Lector["fechaAlta"] != DBNull.Value ? Convert.ToDateTime(datos.Lector["fechaAlta"]) : DateTime.MinValue;
 
                     lista.Add(aux);
                 }
 
-                return lista;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
                 datos.cerrarConexion();
             }
+
+            return lista;
         }
 
         public Clientes obtenerPorId(int id)
         {
-            AccesoDatos datos = new AccesoDatos();
             Clientes cliente = null;
 
-            try
+            using (AccesoDatos datos = new AccesoDatos())
             {
                 datos.setearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta FROM Clientes WHERE IDCliente = @id AND Activo = 1");
                 datos.setearParametro("@id", id);
@@ -61,99 +51,69 @@ namespace negocio
                 if (datos.Lector.Read())
                 {
                     cliente = new Clientes();
-                    cliente.IDCliente = (int)datos.Lector["IDCliente"];
-                    cliente.Nombre = (string)datos.Lector["Nombre"];
-                    cliente.Apellido = (string)datos.Lector["Apellido"];
-                    cliente.Documento = (string)datos.Lector["Documento"];
-                    cliente.Email = (string)datos.Lector["Email"];
-                    cliente.Telefono = (string)datos.Lector["Telefono"];
-                    cliente.Direccion = (string)datos.Lector["Direccion"];
-                    cliente.Activo = (bool)datos.Lector["Activo"];
-                    cliente.fechaAlta = (DateTime)datos.Lector["fechaAlta"];
+                    cliente.IDCliente = datos.Lector["IDCliente"] != DBNull.Value ? Convert.ToInt32(datos.Lector["IDCliente"]) : 0;
+                    cliente.Nombre = datos.Lector["Nombre"] != DBNull.Value ? datos.Lector["Nombre"].ToString() : null;
+                    cliente.Apellido = datos.Lector["Apellido"] != DBNull.Value ? datos.Lector["Apellido"].ToString() : null;
+                    cliente.Documento = datos.Lector["Documento"] != DBNull.Value ? datos.Lector["Documento"].ToString() : null;
+                    cliente.Email = datos.Lector["Email"] != DBNull.Value ? datos.Lector["Email"].ToString() : null;
+                    cliente.Telefono = datos.Lector["Telefono"] != DBNull.Value ? datos.Lector["Telefono"].ToString() : null;
+                    cliente.Direccion = datos.Lector["Direccion"] != DBNull.Value ? datos.Lector["Direccion"].ToString() : null;
+                    cliente.Activo = datos.Lector["Activo"] != DBNull.Value ? Convert.ToBoolean(datos.Lector["Activo"]) : false;
+                    cliente.fechaAlta = datos.Lector["fechaAlta"] != DBNull.Value ? Convert.ToDateTime(datos.Lector["fechaAlta"]) : DateTime.MinValue;
                 }
 
-                return cliente;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
                 datos.cerrarConexion();
             }
+
+            return cliente;
         }
 
         public void agregar(Clientes nuevo)
         {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
+            using (AccesoDatos datos = new AccesoDatos())
             {
                 datos.setearConsulta("INSERT INTO Clientes (Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta) VALUES (@Nombre, @Apellido, @Documento, @Email, @Telefono, @Direccion, @Activo, @fechaAlta)");
-                datos.setearParametro("@Nombre", nuevo.Nombre);
-                datos.setearParametro("@Apellido", nuevo.Apellido);
-                datos.setearParametro("@Documento", nuevo.Documento);
-                datos.setearParametro("@Email", nuevo.Email);
-                datos.setearParametro("@Telefono", nuevo.Telefono);
-                datos.setearParametro("@Direccion", nuevo.Direccion);
+                datos.setearParametro("@Nombre", string.IsNullOrWhiteSpace(nuevo.Nombre) ? null : nuevo.Nombre);
+                datos.setearParametro("@Apellido", string.IsNullOrWhiteSpace(nuevo.Apellido) ? null : nuevo.Apellido);
+                datos.setearParametro("@Documento", string.IsNullOrWhiteSpace(nuevo.Documento) ? null : nuevo.Documento);
+                datos.setearParametro("@Email", string.IsNullOrWhiteSpace(nuevo.Email) ? null : nuevo.Email);
+                datos.setearParametro("@Telefono", string.IsNullOrWhiteSpace(nuevo.Telefono) ? null : nuevo.Telefono);
+                datos.setearParametro("@Direccion", string.IsNullOrWhiteSpace(nuevo.Direccion) ? null : nuevo.Direccion);
                 datos.setearParametro("@Activo", nuevo.Activo);
-                datos.setearParametro("@fechaAlta", nuevo.fechaAlta);
+                datos.setearParametro("@fechaAlta", nuevo.fechaAlta == DateTime.MinValue ? DateTime.Now : nuevo.fechaAlta);
+
                 datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
                 datos.cerrarConexion();
             }
         }
 
         public void modificar(Clientes cliente)
         {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
+            using (AccesoDatos datos = new AccesoDatos())
             {
                 datos.setearConsulta("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Documento = @Documento, Email = @Email, Telefono = @Telefono, Direccion = @Direccion, Activo = @Activo WHERE IDCliente = @IDCliente");
-                datos.setearParametro("@Nombre", cliente.Nombre);
-                datos.setearParametro("@Apellido", cliente.Apellido);
-                datos.setearParametro("@Documento", cliente.Documento);
-                datos.setearParametro("@Email", cliente.Email);
-                datos.setearParametro("@Telefono", cliente.Telefono);
-                datos.setearParametro("@Direccion", cliente.Direccion);
+                datos.setearParametro("@Nombre", string.IsNullOrWhiteSpace(cliente.Nombre) ? null : cliente.Nombre);
+                datos.setearParametro("@Apellido", string.IsNullOrWhiteSpace(cliente.Apellido) ? null : cliente.Apellido);
+                datos.setearParametro("@Documento", string.IsNullOrWhiteSpace(cliente.Documento) ? null : cliente.Documento);
+                datos.setearParametro("@Email", string.IsNullOrWhiteSpace(cliente.Email) ? null : cliente.Email);
+                datos.setearParametro("@Telefono", string.IsNullOrWhiteSpace(cliente.Telefono) ? null : cliente.Telefono);
+                datos.setearParametro("@Direccion", string.IsNullOrWhiteSpace(cliente.Direccion) ? null : cliente.Direccion);
                 datos.setearParametro("@Activo", cliente.Activo);
                 datos.setearParametro("@IDCliente", cliente.IDCliente);
+
                 datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
                 datos.cerrarConexion();
             }
         }
 
+        // Baja lógica (coherente con listar() que filtra Activo = 1)
         public void eliminar(int id)
         {
-            AccesoDatos datos = new AccesoDatos();
-
-            try
+            using (AccesoDatos datos = new AccesoDatos())
             {
-                datos.setearConsulta("DELETE FROM Clientes WHERE IDCliente = @IDCliente");
+                datos.setearConsulta("UPDATE Clientes SET Activo = 0 WHERE IDCliente = @IDCliente");
                 datos.setearParametro("@IDCliente", id);
                 datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
                 datos.cerrarConexion();
             }
         }
