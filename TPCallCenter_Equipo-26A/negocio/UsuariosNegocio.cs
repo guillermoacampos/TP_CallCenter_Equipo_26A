@@ -106,7 +106,7 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception($"Error al agregar el usuario: {ex.Message}. Datos: Nombre={nuevo.Nombre}, Apellido={nuevo.Apellido}, Email={nuevo.Email}, IDPerfil={nuevo.Perfil.IDPerfil}, Activo={nuevo.Activo}, FechaAlta={nuevo.FechaAlta}");
             }
             finally
             {
