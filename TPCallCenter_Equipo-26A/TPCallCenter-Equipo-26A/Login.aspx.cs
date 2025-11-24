@@ -25,7 +25,7 @@ namespace TPCallCenter_Equipo_26A
                 usuario.Email = txtEmail.Text;
                 usuario.Contrasena = txtPassword.Text;
 
-                if (negocio.Login(usuario)) // Método para validar credenciales
+                if (negocio.Login(usuario)) // Metodo para validar credenciales
                 {
                     Session.Add("usuario", usuario);
                     Response.Redirect("Default.aspx", false);
