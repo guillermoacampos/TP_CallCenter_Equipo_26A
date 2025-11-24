@@ -17,15 +17,18 @@ namespace TPCallCenter_Equipo_26A
             // Mostrar el sidebar solo si el usuario está logueado
             sidebarWrapper.Visible = Session["usuario"] != null;
 
-            // Mostrar el botón de Gestión de Usuarios solo para adminis
-            var usuario = Session["usuario"] as dominio.Usuarios;
-            if (usuario != null && usuario.Perfil.IDPerfil == 2) // IDPerfil = 2 es Administrador
+            if (!IsPostBack)
             {
-                phGestionUsuarios.Visible = true;
-            }
-            else
-            {
-                phGestionUsuarios.Visible = false;
+                // Verificar si el usuario tiene permisos de administrador
+                var usuario = Session["usuario"] as dominio.Usuarios;
+                if (usuario != null && usuario.Perfil.IDPerfil == 2) // IDPerfil 2 = Administrador
+                {
+                    phGestionUsuarios.Visible = true;
+                }
+                else
+                {
+                    phGestionUsuarios.Visible = false;
+                }
             }
         }
 
