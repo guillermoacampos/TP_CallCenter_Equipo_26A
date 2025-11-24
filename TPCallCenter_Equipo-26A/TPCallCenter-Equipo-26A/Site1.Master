@@ -69,7 +69,7 @@
     <form id="form1" runat="server">
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
-            <div class="bg-dark border-right d-flex flex-column" id="sidebar-wrapper">
+            <div class="bg-dark border-right d-flex flex-column" id="sidebarWrapper" runat="server">
                 <div class="sidebar-heading">Call Center</div>
                 <div class="list-group list-group-flush">
                     <a href="Default.aspx" class="list-group-item list-group-item-action bg-dark text-white">

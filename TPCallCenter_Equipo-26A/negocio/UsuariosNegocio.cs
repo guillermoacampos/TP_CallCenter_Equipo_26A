@@ -159,5 +159,42 @@ namespace negocio
                 datos.CerrarConexion();
             }
         }
+
+        public bool Login(Usuarios usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo FROM Usuarios WHERE Email = @Email AND Contrasena = @Contrasena AND Activo = 1");
+                datos.SetearParametro("@Email", usuario.Email);
+                datos.SetearParametro("@Contrasena", usuario.Contrasena);
+                datos.EjecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    usuario.IDUsuario = (int)datos.Lector["IDUsuario"];
+                    usuario.Nombre = (string)datos.Lector["Nombre"];
+                    usuario.Apellido = (string)datos.Lector["Apellido"];
+                    usuario.Perfil = new Perfil
+                    {
+                        IDPerfil = (int)datos.Lector["IDPerfil"]
+                    };
+                    usuario.Activo = (bool)datos.Lector["Activo"];
+
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
     }
 }
