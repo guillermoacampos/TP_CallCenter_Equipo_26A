@@ -166,7 +166,7 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo FROM Usuarios WHERE Email = @Email AND Contrasena = @Contrasena AND Activo = 1");
+                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contraseña, IDPerfil, Activo FROM Usuarios WHERE Email = @Email AND Contraseña = @Contrasena AND Activo = 1");
                 datos.SetearParametro("@Email", usuario.Email);
                 datos.SetearParametro("@Contrasena", usuario.Contrasena);
                 datos.EjecutarLectura();
