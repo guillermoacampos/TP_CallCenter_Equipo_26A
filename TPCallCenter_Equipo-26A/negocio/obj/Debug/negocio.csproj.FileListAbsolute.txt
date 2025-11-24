@@ -7,3 +7,12 @@ C:\Users\guill\OneDrive\Escritorio\TPCallCenter\TP_CallCenter_Equipo_26A\TPCallC
 C:\Users\guill\OneDrive\Escritorio\TPCallCenter\TP_CallCenter_Equipo_26A\TPCallCenter_Equipo-26A\negocio\obj\Debug\negocio.csproj.Up2Date
 C:\Users\guill\OneDrive\Escritorio\TPCallCenter\TP_CallCenter_Equipo_26A\TPCallCenter_Equipo-26A\negocio\obj\Debug\negocio.dll
 C:\Users\guill\OneDrive\Escritorio\TPCallCenter\TP_CallCenter_Equipo_26A\TPCallCenter_Equipo-26A\negocio\obj\Debug\negocio.pdb
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\negocio\bin\Debug\negocio.dll
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\negocio\bin\Debug\negocio.pdb
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\negocio\bin\Debug\dominio_2.dll
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\negocio\bin\Debug\dominio_2.pdb
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\negocio\obj\Debug\negocio.csproj.AssemblyReference.cache
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\negocio\obj\Debug\negocio.csproj.CoreCompileInputs.cache
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\negocio\obj\Debug\negocio.csproj.Up2Date
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\negocio\obj\Debug\negocio.dll
+C:\Users\nburg\Desktop\UTN\PROGRAMACION III\TP-Final\TPCallCenter_Equipo-26A\negocio\obj\Debug\negocio.pdb

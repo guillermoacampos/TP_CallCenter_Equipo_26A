@@ -16,7 +16,7 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, FechaAlta FROM Usuarios WHERE Activo = 1");
+                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contraseña, IDPerfil, Activo, FechaDeAlta FROM Usuarios WHERE Activo = 1");
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
@@ -26,13 +26,13 @@ namespace negocio
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
                     aux.Email = (string)datos.Lector["Email"];
-                    aux.Contrasena = (string)datos.Lector["Contrasena"];
+                    aux.Contrasena = (string)datos.Lector["Contraseña"];
                     aux.Perfil = new Perfil
                     {
                         IDPerfil = (int)datos.Lector["IDPerfil"]
                     };
                     aux.Activo = (bool)datos.Lector["Activo"];
-                    aux.FechaAlta = (DateTime)datos.Lector["FechaAlta"];
+                    aux.FechaAlta = (DateTime)datos.Lector["FechaDeAlta"];
 
                     lista.Add(aux);
                 }
@@ -56,7 +56,7 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, FechaAlta FROM Usuarios WHERE IDUsuario = @id AND Activo = 1");
+                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contraseña, IDPerfil, Activo, FechaDeAlta FROM Usuarios WHERE IDUsuario = @id AND Activo = 1");
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
 
@@ -67,13 +67,13 @@ namespace negocio
                     usuario.Nombre = (string)datos.Lector["Nombre"];
                     usuario.Apellido = (string)datos.Lector["Apellido"];
                     usuario.Email = (string)datos.Lector["Email"];
-                    usuario.Contrasena = (string)datos.Lector["Contrasena"];
+                    usuario.Contrasena = (string)datos.Lector["Contraseña"];
                     usuario.Perfil = new Perfil
                     {
                         IDPerfil = (int)datos.Lector["IDPerfil"]
                     };
                     usuario.Activo = (bool)datos.Lector["Activo"];
-                    usuario.FechaAlta = (DateTime)datos.Lector["FechaAlta"];
+                    usuario.FechaAlta = (DateTime)datos.Lector["FechaDeAlta"];
                 }
 
                 return usuario;
@@ -94,7 +94,7 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("INSERT INTO Usuarios (Nombre, Apellido, Email, Contrasena, IDPerfil, Activo, FechaAlta) VALUES (@Nombre, @Apellido, @Email, @Contrasena, @IDPerfil, @Activo, @FechaAlta)");
+                datos.SetearConsulta("INSERT INTO Usuarios (Nombre, Apellido, Email, Contraseña, IDPerfil, Activo, FechaDeAlta) VALUES (@Nombre, @Apellido, @Email, @Contrasena, @IDPerfil, @Activo, @FechaAlta)");
                 datos.SetearParametro("@Nombre", nuevo.Nombre);
                 datos.SetearParametro("@Apellido", nuevo.Apellido);
                 datos.SetearParametro("@Email", nuevo.Email);
@@ -106,7 +106,7 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception($"Error al agregar el usuario: {ex.Message}. Datos: Nombre={nuevo.Nombre}, Apellido={nuevo.Apellido}, Email={nuevo.Email}, IDPerfil={nuevo.Perfil.IDPerfil}, Activo={nuevo.Activo}, FechaAlta={nuevo.FechaAlta}");
             }
             finally
             {
@@ -120,7 +120,7 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("UPDATE Usuarios SET Nombre = @Nombre, Apellido = @Apellido, Email = @Email, Contrasena = @Contrasena, IDPerfil = @IDPerfil, Activo = @Activo WHERE IDUsuario = @IDUsuario");
+                datos.SetearConsulta("UPDATE Usuarios SET Nombre = @Nombre, Apellido = @Apellido, Email = @Email, Contraseña = @Contrasena, IDPerfil = @IDPerfil, Activo = @Activo WHERE IDUsuario = @IDUsuario");
                 datos.SetearParametro("@Nombre", usuario.Nombre);
                 datos.SetearParametro("@Apellido", usuario.Apellido);
                 datos.SetearParametro("@Email", usuario.Email);
@@ -149,6 +149,43 @@ namespace negocio
                 datos.SetearConsulta("DELETE FROM Usuarios WHERE IDUsuario = @IDUsuario");
                 datos.SetearParametro("@IDUsuario", id);
                 datos.EjecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        public bool Login(Usuarios usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("SELECT IDUsuario, Nombre, Apellido, Email, Contraseña, IDPerfil, Activo FROM Usuarios WHERE Email = @Email AND Contraseña = @Contrasena AND Activo = 1");
+                datos.SetearParametro("@Email", usuario.Email);
+                datos.SetearParametro("@Contrasena", usuario.Contrasena);
+                datos.EjecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    usuario.IDUsuario = (int)datos.Lector["IDUsuario"];
+                    usuario.Nombre = (string)datos.Lector["Nombre"];
+                    usuario.Apellido = (string)datos.Lector["Apellido"];
+                    usuario.Perfil = new Perfil
+                    {
+                        IDPerfil = (int)datos.Lector["IDPerfil"]
+                    };
+                    usuario.Activo = (bool)datos.Lector["Activo"];
+
+                    return true;
+                }
+
+                return false;
             }
             catch (Exception ex)
             {
