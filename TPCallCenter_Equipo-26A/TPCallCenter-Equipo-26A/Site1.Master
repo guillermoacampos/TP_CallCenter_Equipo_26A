@@ -90,6 +90,11 @@
                         <a href="#" class="list-group-item list-group-item-action bg-dark text-white">
                             <i class="fas fa-chart-bar"></i> Reportes
                         </a>
+                        <asp:PlaceHolder ID="phGestionUsuarios" runat="server">
+                            <a href="Usuarios.aspx" class="list-group-item list-group-item-action bg-dark text-white">
+                                <i class="fas fa-user-cog"></i> Gestión de Usuarios
+                            </a>
+                        </asp:PlaceHolder>
                     </div>
                 </div>
                 <div class="logout">
