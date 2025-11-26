@@ -12,7 +12,7 @@ namespace negocio
 
             using (AccesoDatos datos = new AccesoDatos())
             {
-                datos.SetearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta FROM Clientes WHERE Activo = 1");
+                datos.SetearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, FechaAlta FROM Clientes WHERE Activo = 1");
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
@@ -27,7 +27,7 @@ namespace negocio
                     aux.Telefono = datos.Lector["Telefono"] != DBNull.Value ? datos.Lector["Telefono"].ToString() : null;
                     aux.Direccion = datos.Lector["Direccion"] != DBNull.Value ? datos.Lector["Direccion"].ToString() : null;
                     aux.Activo = datos.Lector["Activo"] != DBNull.Value ? Convert.ToBoolean(datos.Lector["Activo"]) : false;
-                    aux.fechaAlta = datos.Lector["fechaAlta"] != DBNull.Value ? Convert.ToDateTime(datos.Lector["fechaAlta"]) : DateTime.MinValue;
+                    aux.FechaAlta = datos.Lector["FechaAlta"] != DBNull.Value ? Convert.ToDateTime(datos.Lector["FechaAlta"]) : DateTime.MinValue;
 
                     lista.Add(aux);
                 }
@@ -44,7 +44,7 @@ namespace negocio
 
             using (AccesoDatos datos = new AccesoDatos())
             {
-                datos.SetearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, fechaAlta FROM Clientes WHERE IDCliente = @id AND Activo = 1");
+                datos.SetearConsulta("SELECT IDCliente, Nombre, Apellido, Documento, Email, Telefono, Direccion, Activo, FechaAlta FROM Clientes WHERE IDCliente = @id AND Activo = 1");
                 datos.SetearParametro("@id", id);
                 datos.EjecutarLectura();
 
@@ -59,7 +59,7 @@ namespace negocio
                     cliente.Telefono = datos.Lector["Telefono"] != DBNull.Value ? datos.Lector["Telefono"].ToString() : null;
                     cliente.Direccion = datos.Lector["Direccion"] != DBNull.Value ? datos.Lector["Direccion"].ToString() : null;
                     cliente.Activo = datos.Lector["Activo"] != DBNull.Value ? Convert.ToBoolean(datos.Lector["Activo"]) : false;
-                    cliente.fechaAlta = datos.Lector["fechaAlta"] != DBNull.Value ? Convert.ToDateTime(datos.Lector["fechaAlta"]) : DateTime.MinValue;
+                    cliente.FechaAlta = datos.Lector["FechaAlta"] != DBNull.Value ? Convert.ToDateTime(datos.Lector["FechaAlta"]) : DateTime.MinValue;
                 }
 
                 datos.CerrarConexion();
@@ -82,7 +82,7 @@ namespace negocio
                 datos.SetearParametro("@Telefono", nuevo.Telefono);
                 datos.SetearParametro("@Direccion", nuevo.Direccion);
                 datos.SetearParametro("@Activo", nuevo.Activo);
-                datos.SetearParametro("@FechaAlta", nuevo.fechaAlta);
+                datos.SetearParametro("@FechaAlta", nuevo.FechaAlta);
                 datos.EjecutarAccion();
             }
             catch (Exception ex)
@@ -101,7 +101,7 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Documento = @Documento, Email = @Email, Telefono = @Telefono, Direccion = @Direccion, Activo = @Activo WHERE IDCliente = @IDCliente");
+                datos.SetearConsulta("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Documento = @Documento, Email = @Email, Telefono = @Telefono, Direccion = @Direccion, Activo = @Activo, FechaAlta = @FechaAlta WHERE IDCliente = @IDCliente");
                 datos.SetearParametro("@Nombre", cliente.Nombre);
                 datos.SetearParametro("@Apellido", cliente.Apellido);
                 datos.SetearParametro("@Documento", cliente.Documento);
@@ -109,6 +109,7 @@ namespace negocio
                 datos.SetearParametro("@Telefono", cliente.Telefono);
                 datos.SetearParametro("@Direccion", cliente.Direccion);
                 datos.SetearParametro("@Activo", cliente.Activo);
+                datos.SetearParametro("@FechaAlta", cliente.FechaAlta);
                 datos.SetearParametro("@IDCliente", cliente.IDCliente);
                 datos.EjecutarAccion();
             }

@@ -8,7 +8,7 @@ namespace dominio
 {
     public class Prioridades
     {
-        public int IDPrioridades { get; set; }
+        public int IDPrioridad { get; set; } 
         public string Nombre { get; set; }
         public int Nivel { get; set; }
         public String Descripcion { get; set; }
