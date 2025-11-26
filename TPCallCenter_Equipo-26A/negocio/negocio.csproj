@@ -43,7 +43,9 @@
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
     <Compile Include="ClientesNegocio.cs" />
+    <Compile Include="EmailService.cs" />
     <Compile Include="EstadosNegocio.cs" />
+    <Compile Include="IncidenciaNotificador.cs" />
     <Compile Include="IncidenciasNegocio.cs" />
     <Compile Include="PerfilNegocio.cs" />
     <Compile Include="PrioridadesNegocio.cs" />

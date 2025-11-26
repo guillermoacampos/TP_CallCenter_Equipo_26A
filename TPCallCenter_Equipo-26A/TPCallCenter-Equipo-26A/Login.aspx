@@ -22,6 +22,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="login-container">
         <div class="login-card">
+            <div class="text-center mb-4">
+                <h1 style="font-family: 'Arial', sans-serif; font-size: 2.5rem; color: #0f323c; font-weight: bold;">
+                    CALL CENTER
+                </h1>
+            </div>
             <h3 class="text-center">Login</h3>
             <div class="mb-3">
                 <label for="txtEmail" class="form-label">Email</label>
