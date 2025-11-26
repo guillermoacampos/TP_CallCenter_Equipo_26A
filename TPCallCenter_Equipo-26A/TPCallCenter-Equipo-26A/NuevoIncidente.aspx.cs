@@ -50,7 +50,6 @@ namespace TPCallCenter_Equipo_26A
         {
             try
             {
-                // Retrieve the logged-in user from the session
                 dominio.Usuarios usuarioLogueado = (dominio.Usuarios)Session["Usuario"];
                 if (usuarioLogueado == null)
                 {
@@ -67,13 +66,11 @@ namespace TPCallCenter_Equipo_26A
                     CreadorUsuario = usuarioLogueado
                 };
 
-                // Pass the logged-in user's ID to the CrearIncidencia method
                 incidenciasNegocio.CrearIncidencia(nuevaIncidencia, usuarioLogueado.IDUsuario);
                 Response.Redirect("GestionIncidentes.aspx");
             }
             catch (Exception ex)
             {
-                // Handle errors
                 Response.Write("<script>alert('Error al crear la incidencia: " + ex.Message + "');</script>");
             }
         }

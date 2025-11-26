@@ -28,11 +28,12 @@
 
         <asp:GridView ID="gvIncidencias" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-hover" OnRowCommand="gvIncidencias_RowCommand">
             <Columns>
-                <asp:BoundField DataField="NumReclamo" HeaderText="N° Reclamo" />
+                <asp:BoundField DataField="IDIncidencia" HeaderText="N° Reclamo" />
                 <asp:BoundField DataField="Cliente.Nombre" HeaderText="Cliente" />
                 <asp:BoundField DataField="TipoIncidencia.Nombre" HeaderText="Tipo" />
                 <asp:BoundField DataField="Prioridad.Nombre" HeaderText="Prioridad" />
                 <asp:BoundField DataField="Estado.Descripcion" HeaderText="Estado" />
+                <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
                 <asp:BoundField DataField="FechaAlta" HeaderText="Fecha Alta" DataFormatString="{0:dd/MM/yyyy}" />
                 <asp:ButtonField CommandName="Resolver" Text="Resolver" ButtonType="Button" ItemStyle-CssClass="btn btn-success" />
                 <asp:ButtonField CommandName="Cerrar" Text="Cerrar" ButtonType="Button" ItemStyle-CssClass="btn btn-danger" />

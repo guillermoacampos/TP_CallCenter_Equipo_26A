@@ -150,7 +150,18 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("SELECT * FROM Incidencias");
+                datos.SetearConsulta(@"
+                    SELECT i.IDIncidencia, i.Descripcion, i.FechaAlta, 
+                           c.IDCliente, c.Nombre AS ClienteNombre, 
+                           t.IDTipoIncidencia, t.Nombre AS TipoNombre, 
+                           p.IDPrioridad, p.Nombre AS PrioridadNombre, 
+                           e.IDEstado, e.Descripcion AS EstadoDescripcion
+                    FROM Incidencias i
+                    INNER JOIN Clientes c ON i.IDCliente = c.IDCliente
+                    INNER JOIN TiposDeIncidencia t ON i.IDTipoIncidencia = t.IDTipoIncidencia
+                    INNER JOIN Prioridades p ON i.IDPrioridad = p.IDPrioridad
+                    INNER JOIN Estados e ON i.IDEstado = e.IDEstado");
+
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
@@ -160,8 +171,26 @@ namespace negocio
                         IDIncidencia = (int)datos.Lector["IDIncidencia"],
                         Descripcion = (string)datos.Lector["Descripcion"],
                         FechaAlta = (DateTime)datos.Lector["FechaAlta"],
-                        Estado = new Estados { IDEstado = (int)datos.Lector["IDEstado"] },
-                        AsignadoUsuario = new Usuarios() // Ensure AsignadoUsuario is initialized
+                        Cliente = new Clientes
+                        {
+                            IDCliente = (int)datos.Lector["IDCliente"],
+                            Nombre = (string)datos.Lector["ClienteNombre"]
+                        },
+                        TipoIncidencia = new TiposDeIncidencia
+                        {
+                            IDTipoIncidencia = (int)datos.Lector["IDTipoIncidencia"],
+                            Nombre = (string)datos.Lector["TipoNombre"]
+                        },
+                        Prioridad = new Prioridades
+                        {
+                            IDPrioridad = (int)datos.Lector["IDPrioridad"],
+                            Nombre = (string)datos.Lector["PrioridadNombre"]
+                        },
+                        Estado = new Estados
+                        {
+                            IDEstado = (int)datos.Lector["IDEstado"],
+                            Descripcion = (string)datos.Lector["EstadoDescripcion"]
+                        }
                     };
                     lista.Add(incidencia);
                 }
@@ -197,7 +226,7 @@ namespace negocio
                         Descripcion = (string)datos.Lector["Descripcion"],
                         FechaAlta = (DateTime)datos.Lector["FechaAlta"],
                         Estado = new Estados { IDEstado = (int)datos.Lector["IDEstado"] },
-                        AsignadoUsuario = new Usuarios() // Ensure AsignadoUsuario is initialized
+                        AsignadoUsuario = new Usuarios()
                     };
                     lista.Add(incidencia);
                 }
