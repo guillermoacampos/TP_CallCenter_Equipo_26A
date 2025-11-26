@@ -36,7 +36,7 @@ namespace TPCallCenter_Equipo_26A
 
         protected void BtnNuevoUsuario_Click(object sender, EventArgs e)
         {
-            Response.Redirect("NuevoUsuario2.aspx");
+            Response.Redirect("NuevoUsuario.aspx");
         }
     }
 }

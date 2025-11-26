@@ -22,5 +22,34 @@ namespace dominio
         public DateTime FechaResolucion { get; set; }
         public string ComentarioResolucion { get; set; }
         public string ComentarioCierre { get; set; }
+
+        // Metodo para cambiar el estado automaticamente
+        public void CambiarEstado(string accion)
+        {
+            switch (accion)
+            {
+                case "Crear":
+                    Estado = new Estados { IDEstado = 1, Descripcion = "Abierto" }; // Estado Abierto
+                    break;
+                case "Reasignar":
+                    Estado = new Estados { IDEstado = 5, Descripcion = "Asignado" }; // Estado Asignado
+                    break;
+                case "Modificar":
+                    Estado = new Estados { IDEstado = 2, Descripcion = "En análisis" }; // Estado En Análisis
+                    break;
+                case "Resolver":
+                    Estado = new Estados { IDEstado = 6, Descripcion = "Resuelto" }; // Estado Resuelto
+                    FechaResolucion = DateTime.Now;
+                    break;
+                case "Cerrar":
+                    Estado = new Estados { IDEstado = 3, Descripcion = "Cerrado" }; // Estado Cerrado
+                    break;
+                case "Reabrir":
+                    Estado = new Estados { IDEstado = 4, Descripcion = "Reabierto" }; // Estado Reabierto
+                    break;
+                default:
+                    throw new ArgumentException("Acción no válida para cambiar el estado.");
+            }
+        }
     }
 }

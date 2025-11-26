@@ -13,14 +13,14 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("SELECT IDPrioridades, Nombre, Nivel, Descripcion FROM Prioridades");
+                datos.SetearConsulta("SELECT IDPrioridad, Nombre, Nivel, Descripcion FROM Prioridades");
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Prioridades prioridad = new Prioridades
                     {
-                        IDPrioridades = (int)datos.Lector["IDPrioridades"],
+                        IDPrioridad = (int)datos.Lector["IDPrioridad"],
                         Nombre = (string)datos.Lector["Nombre"],
                         Nivel = (int)datos.Lector["Nivel"],
                         Descripcion = (string)datos.Lector["Descripcion"]
@@ -69,11 +69,11 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("UPDATE Prioridades SET Nombre = @Nombre, Nivel = @Nivel, Descripcion = @Descripcion WHERE IDPrioridades = @IDPrioridades");
+                datos.SetearConsulta("UPDATE Prioridades SET Nombre = @Nombre, Nivel = @Nivel, Descripcion = @Descripcion WHERE IDPrioridad = @IDPrioridad");
                 datos.SetearParametro("@Nombre", prioridad.Nombre);
                 datos.SetearParametro("@Nivel", prioridad.Nivel);
                 datos.SetearParametro("@Descripcion", prioridad.Descripcion);
-                datos.SetearParametro("@IDPrioridades", prioridad.IDPrioridades);
+                datos.SetearParametro("@IDPrioridad", prioridad.IDPrioridad);
                 datos.EjecutarAccion();
             }
             catch (Exception ex)
@@ -92,8 +92,8 @@ namespace negocio
 
             try
             {
-                datos.SetearConsulta("DELETE FROM Prioridades WHERE IDPrioridades = @IDPrioridades");
-                datos.SetearParametro("@IDPrioridades", id);
+                datos.SetearConsulta("DELETE FROM Prioridades WHERE IDPrioridad = @IDPrioridad");
+                datos.SetearParametro("@IDPrioridad", id);
                 datos.EjecutarAccion();
             }
             catch (Exception ex)

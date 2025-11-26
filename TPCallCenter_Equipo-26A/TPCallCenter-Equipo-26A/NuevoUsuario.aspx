@@ -27,8 +27,9 @@
         </div>
         <div class="mb-3">
             <label for="txtContrasena" class="form-label">Contraseña</label>
-            <asp:TextBox ID="txtContrasena" runat="server" CssClass="form-control" TextMode="Password" placeholder="Ingrese la contraseña" MaxLength="50"></asp:TextBox>
+            <asp:TextBox ID="txtContrasena" runat="server" CssClass="form-control" TextMode="Password" placeholder="Ingrese la contraseña" MaxLength="6"></asp:TextBox>
             <asp:RequiredFieldValidator ID="rfvContrasena" runat="server" ControlToValidate="txtContrasena" ErrorMessage="La contraseña es obligatoria." CssClass="text-danger" />
+            <asp:RegularExpressionValidator ID="revContrasena" runat="server" ControlToValidate="txtContrasena" ErrorMessage="La contraseña debe tener un máximo de 6 caracteres." CssClass="text-danger" ValidationExpression="^.{1,6}$" />
         </div>
         <div class="mb-3">
             <label for="ddlPerfil" class="form-label">Perfil</label>

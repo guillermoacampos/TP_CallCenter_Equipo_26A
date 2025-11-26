@@ -13,7 +13,7 @@ namespace TPCallCenter_Equipo_26A
         {
             if (!IsPostBack)
             {
-                // Cargar datos iniciales si es necesario
+                // 
             }
         }
 
@@ -39,7 +39,9 @@ namespace TPCallCenter_Equipo_26A
                 }
                 catch (Exception ex)
                 {
-                    Response.Write("<script>alert('Error al guardar el usuario: " + ex.Message.Replace("'", "\\'") + "');</script>");
+                    // Imprimir el error en la consola del servidor
+                    System.Diagnostics.Debug.WriteLine("Error al guardar el usuario: " + ex);
+                    throw; 
                 }
             }
         }

@@ -91,7 +91,7 @@ namespace TPCallCenter_Equipo_26A
                     Telefono = txtTelefono.Text.Trim(),
                     Direccion = txtDireccion.Text.Trim(),
                     Activo = true,
-                    fechaAlta = DateTime.Now
+                    FechaAlta = DateTime.Now
                 };
 
                 if (ViewState["IDCliente"] != null)
