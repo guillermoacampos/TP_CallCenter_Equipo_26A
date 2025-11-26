@@ -25,6 +25,7 @@
         </div>
 
         <asp:Button ID="btnNuevoIncidente" runat="server" Text="Nuevo Incidente" CssClass="btn btn-success mb-3" PostBackUrl="~/NuevoIncidente.aspx" />
+<asp:Button ID="btnEnviarCorreo" runat="server" Text="Enviar Correo de Prueba" CssClass="btn btn-info mb-3" OnClick="btnEnviarCorreo_Click" />
 
         <asp:GridView ID="gvIncidencias" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-hover" OnRowCommand="gvIncidencias_RowCommand">
             <Columns>
