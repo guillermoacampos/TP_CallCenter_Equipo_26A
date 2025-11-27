@@ -1,119 +1,75 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.Master.cs" Inherits="TPCallCenter_Equipo_26A.Site1" %>
-
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="TPCallCenter_Equipo_26A.Site1" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head runat="server">
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
-    <asp:ContentPlaceHolder ID="head" runat="server" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TP Call Center</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" crossorigin="anonymous" />
+
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
+        body { font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .app-layout { display:flex; min-height:100vh; }
+        .app-sidebar {
+            width:260px; flex:0 0 260px; background:#0f323c; color:#fff;
+            display:flex; flex-direction:column; border-right:1px solid rgba(255,255,255,0.15);
         }
-        #wrapper {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: row;
+        .app-sidebar .brand {
+            padding:16px 20px; font-weight:800; font-size:1.2rem; letter-spacing:.4px;
+            border-bottom:1px solid rgba(255,255,255,0.15);
         }
-        #sidebar-wrapper {
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            overflow-y: auto;
-            width: 250px;
-            background-color: #343a40;
-        }
-        #sidebar-wrapper .sidebar-heading {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        #sidebar-wrapper .list-group-item {
-            border: none;
-            padding: 10px 20px;
-        }
-        #sidebar-wrapper .list-group-item:not(:last-child) {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        #sidebar-wrapper .list-group-item-action {
-            color: white;
-        }
-        #sidebar-wrapper .list-group-item-action:hover {
-            background-color: #495057;
-        }
-        #sidebar-wrapper .logout {
-            margin-top: auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            padding: 15px 0;
-        }
-        #sidebar-wrapper .logout a {
-            color: #dc3545;
-            font-weight: bold;
-        }
-        #sidebar-wrapper .logout a:hover {
-            color: #bd2130;
-        }
-        #page-content-wrapper {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            min-height: 100vh;
-            overflow-y: auto;
+        .app-sidebar a { color:#cfe8f0; text-decoration:none; padding:12px 20px; display:block; transition:background .15s; }
+        .app-sidebar a:hover { background:rgba(255,255,255,0.08); color:#fff; }
+        .sidebar-footer { margin-top:auto; padding:12px 20px; border-top:1px solid rgba(255,255,255,0.15); }
+        .btn-logout { width:100%; background:#dc3545; border-color:#dc3545; }
+        .app-content { flex:1 1 auto; background:#f7f9fb; }
+        .content-inner { padding:24px; }
+        @media (max-width: 991.98px) {
+            .app-sidebar { position:fixed; left:0; top:0; bottom:0; transform:translateX(-100%); transition:transform .2s; z-index:1040; }
+            .app-sidebar.open { transform:translateX(0); }
+            .sidebar-toggle { position:fixed; left:12px; top:12px; z-index:1050; }
+            .content-inner { padding:16px; }
         }
     </style>
+
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <div class="d-flex" id="wrapper">
-            <!-- Sidebar -->
-            <div class="bg-dark border-right d-flex flex-column justify-content-between" id="sidebarWrapper" runat="server">
-                <div>
-                    <div class="sidebar-heading">Call Center</div>
-                    <div class="list-group list-group-flush">
-                        <a href="Default.aspx" class="list-group-item list-group-item-action bg-dark text-white">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
-                        </a>
-                        <a href="Clientes.aspx" class="list-group-item list-group-item-action bg-dark text-white">
-                            <i class="fas fa-users"></i> Clientes
-                        </a>
-                        <a href="GestionIncidentes.aspx" class="list-group-item list-group-item-action bg-dark text-white">
-                            <i class="fas fa-exclamation-circle"></i> Gestión de Incidentes
-                        </a>
-                        <asp:PlaceHolder ID="phGestionUsuarios" runat="server">
-                            <a href="Usuarios.aspx" class="list-group-item list-group-item-action bg-dark text-white">
-                                <i class="fas fa-user-cog"></i> Gestión de Usuarios
-                            </a>
-                        </asp:PlaceHolder>
-                    </div>
-                </div>
-                <div class="logout">
-                    <asp:LinkButton ID="btnLogout" runat="server" CssClass="text-danger font-weight-bold" OnClick="Logout_Click">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </asp:LinkButton>
-                </div>
-            </div>
-            <!-- /#sidebar-wrapper -->
+<form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
-            <!-- Page Content -->
-            <div id="page-content-wrapper">
-                <div class="container-fluid">
-                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
-                </div>
+    <button type="button" class="btn btn-outline-secondary d-lg-none sidebar-toggle"
+            onclick="document.getElementById('sidebarWrapper').classList.toggle('open')">☰</button>
+
+    <div class="app-layout">
+        <div id="sidebarWrapper" runat="server" class="app-sidebar">
+            <div class="brand">CALL CENTER</div>
+
+            <a href="Default.aspx">Inicio</a>
+            <a href="GestionIncidentes.aspx">Incidencias</a>
+            <a href="Clientes.aspx">Clientes</a>
+
+            <asp:PlaceHolder ID="phGestionUsuarios" runat="server">
+                <a href="Usuarios.aspx">Usuarios</a>
+                <a href="Reportes.aspx">Reportes</a>
+            </asp:PlaceHolder>
+
+            <div class="sidebar-footer">
+                <asp:Button ID="btnLogout" runat="server" CssClass="btn btn-sm btn-logout" Text="Cerrar sesión" OnClick="Logout_Click" />
             </div>
-            <!-- /#page-content-wrapper -->
         </div>
-        <!-- /#wrapper -->
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    </form>
+        <div class="app-content">
+            <div class="content-inner">
+                <!-- ESTE ES EL PLACEHOLDER QUE BUSCAN TUS PÁGINAS -->
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</form>
 </body>
 </html>

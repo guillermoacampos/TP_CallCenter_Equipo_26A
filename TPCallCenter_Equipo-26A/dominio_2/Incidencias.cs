@@ -9,6 +9,7 @@ namespace dominio
     public class Incidencias
     {
         public int IDIncidencia { get; set; }
+        public int NumeroReclamo { get; set; }
         public int NumReclamo { get; set; }
         public Clientes Cliente { get; set; } 
         public Usuarios CreadorUsuario { get; set; } 

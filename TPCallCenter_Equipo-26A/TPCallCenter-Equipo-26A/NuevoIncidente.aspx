@@ -16,6 +16,9 @@
 
         <asp:ValidationSummary ID="ValidationSummary1" runat="server" CssClass="alert alert-danger" HeaderText="Por favor corrija los siguientes errores:" />
 
+        <asp:Label ID="lblMensaje" runat="server" CssClass="alert alert-success" Visible="false" />
+        <asp:Label ID="lblError" runat="server" CssClass="alert alert-danger" Visible="false" />
+
         <div class="mb-3">
             <label for="ddlCliente" class="form-label">Cliente:</label>
             <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-select" />

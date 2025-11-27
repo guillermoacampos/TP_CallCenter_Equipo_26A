@@ -1,45 +1,48 @@
 using System;
-using System.Web.UI;
-using dominio;
+using System.Web;
 using negocio;
 
 namespace TPCallCenter_Equipo_26A
 {
     public partial class Login : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            // Evitar que los usuarios logueados vuelvan al login
-            if (Session["usuario"] != null)
-            {
-                Response.Redirect("Default.aspx", false);
-            }
-        }
-
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             dominio.Usuarios usuario = new dominio.Usuarios();
             UsuariosNegocio negocio = new UsuariosNegocio();
+
             try
             {
-                usuario.Email = txtEmail.Text;
-                usuario.Contrasena = txtPassword.Text;
+                usuario.Email = txtEmail.Text?.Trim();
+                usuario.Contrasena = txtPassword.Text?.Trim();
 
-                if (negocio.Login(usuario)) // Metodo para validar credenciales
+                bool ok = negocio.Login(usuario);
+
+                if (ok)
                 {
-                    Session.Add("usuario", usuario);
+                    // Guardar usuario con la misma clave que usan otras páginas ("Usuario")
+                    Session["Usuario"] = usuario;
+
+                    // Redirigir a la página principal
                     Response.Redirect("Default.aspx", false);
+                    Context.ApplicationInstance.CompleteRequest();
+                    return;
                 }
                 else
                 {
-                    Session.Add("error", "Usuario o contraseña incorrectos");
-                    Response.Redirect("Error.aspx");
+                    // Credenciales inválidas: redirigir a la página de error o mostrar mensaje.
+                    Session["error"] = "Usuario o contraseña incorrectos";
+                    Response.Redirect("Error.aspx", false);
+                    Context.ApplicationInstance.CompleteRequest();
+                    return;
                 }
             }
             catch (Exception ex)
             {
-                Session.Add("error", ex.ToString());
-                Response.Redirect("Error.aspx");
+                // Guardar error y redirigir a Error.aspx
+                Session["error"] = ex.Message;
+                Response.Redirect("Error.aspx", false);
+                Context.ApplicationInstance.CompleteRequest();
             }
         }
     }
