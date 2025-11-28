@@ -13,13 +13,12 @@ namespace negocio
         {
             server = new SmtpClient
             {
-                Host = "smtp-mail.outlook.com",
+                Host = "smtp.gmail.com",
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("callCenter_tpi@hotmail.com", "contraseña_de_aplicación"),
-                //TargetName = "STARTTLS/smtp-mail.outlook.com",
+                Credentials = new NetworkCredential("tpi.programacion.utn@gmail.com", "dgeb cplw oovi wcmv"),
             };
         }
 
@@ -27,7 +26,7 @@ namespace negocio
         {
             email = new MailMessage
             {
-                From = new MailAddress("noresponder@callCenter_tpi.com"),
+                From = new MailAddress("noresponder@tpi_utn.com"),
                 Subject = asunto,
                 IsBodyHtml = true,
                 Body = cuerpo
@@ -39,6 +38,7 @@ namespace negocio
         {
             try
             {
+                Console.WriteLine("Enviando correo...");
                 server.Send(email);
                 Console.WriteLine("Correo enviado exitosamente a: " + email.To[0].Address);
             }
