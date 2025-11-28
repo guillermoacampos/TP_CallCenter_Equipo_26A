@@ -18,8 +18,7 @@ namespace TPCallCenter_Equipo_26A
         private const int PERFIL_ADMIN = 2;
         private const int PERFIL_SUPERVISOR = 3;
 
-        // IDs de Estado DEFINITIVOS (según tu clase Incidencias.CambiarEstado)
-        // 1 Abierto, 2 En análisis, 3 Cerrado, 4 Reabierto, 5 Asignado, 6 Resuelto
+        // Estados (según tu dominio)
         private const int ESTADO_EN_ANALISIS = 2;
         private const int ESTADO_RESUELTO = 6;
         private const int ESTADO_CERRADO = 3;
@@ -74,17 +73,20 @@ namespace TPCallCenter_Equipo_26A
             try
             {
                 var usuario = Session["Usuario"] as dominio.Usuarios;
-                if (usuario == null) { Response.Redirect("~/Login.aspx"); return; }
+                if (usuario == null)
+                {
+                    Response.Redirect("~/Login.aspx");
+                    return;
+                }
 
                 List<Incidencias> lista = negocio.ObtenerTodas();
 
                 int perfil = usuario.Perfil?.IDPerfil ?? -1;
                 if (perfil == PERFIL_TELEFONISTA)
                 {
-                    // Telefonista ve solo sus incidencias (pero puede resolver/cerrar las que ve)
+                    // Telefonista solo ve (y por ende solo podrá modificar) sus incidencias asignadas
                     lista = lista.Where(i => i.AsignadoUsuario != null && i.AsignadoUsuario.IDUsuario == usuario.IDUsuario).ToList();
                 }
-                // Admin y Supervisor ven todas
 
                 if (ddlFiltroEstado.SelectedValue != "0")
                 {
@@ -141,8 +143,8 @@ namespace TPCallCenter_Equipo_26A
                         break;
 
                     case "Modificar":
-                        // Solo Admin o Supervisor pueden modificar
-                        if (!PuedeModificar(usuarioLogueado))
+                        // Ahora TODOS los perfiles pueden modificar (telefonista solo ve las suyas)
+                        if (!PuedeModificar(idIncidencia, usuarioLogueado))
                         {
                             lblError.Visible = true;
                             lblError.Text = "No tienes permiso para modificar esta incidencia.";
@@ -155,7 +157,6 @@ namespace TPCallCenter_Equipo_26A
                         break;
 
                     case "Resolver":
-                        // Debe poder verla (telefonista si es asignado, admin o supervisor siempre)
                         if (!PuedeAccionarSobre(idIncidencia, usuarioLogueado))
                         {
                             lblError.Visible = true;
@@ -202,17 +203,16 @@ namespace TPCallCenter_Equipo_26A
             var btnResolver = e.Row.FindControl("btnResolver") as Button;
             var btnCerrar = e.Row.FindControl("btnCerrar") as Button;
 
+            // Nueva lógica: TODOS ven Modificar (telefonista ya está filtrado a sus incidencias)
+            if (btnModificar != null) btnModificar.Visible = true;
+
             if (perfil == PERFIL_TELEFONISTA)
             {
-                // Telefonista: NO modificar; SÍ resolver y cerrar (sobre las incidencias que ya filtra BindGrid)
-                if (btnModificar != null) btnModificar.Visible = false;
                 if (btnResolver != null) btnResolver.Visible = true;
                 if (btnCerrar != null) btnCerrar.Visible = true;
             }
             else
             {
-                // Admin y Supervisor: pueden todo
-                if (btnModificar != null) btnModificar.Visible = true;
                 if (btnResolver != null) btnResolver.Visible = true;
                 if (btnCerrar != null) btnCerrar.Visible = true;
             }
@@ -378,10 +378,18 @@ namespace TPCallCenter_Equipo_26A
 
         // ---- Helpers de permisos ----
 
-        private bool PuedeModificar(dominio.Usuarios u)
+        // Ahora TODOS pueden modificar; se filtra por visibilidad de la incidencia (telefonista sólo las suyas).
+        private bool PuedeModificar(int idIncidencia, dominio.Usuarios u)
         {
-            int perfil = u?.Perfil?.IDPerfil ?? -1;
-            return perfil == PERFIL_ADMIN || perfil == PERFIL_SUPERVISOR;
+            if (u == null) return false;
+            int perfil = u.Perfil?.IDPerfil ?? -1;
+            if (perfil == PERFIL_ADMIN || perfil == PERFIL_SUPERVISOR) return true;
+            if (perfil == PERFIL_TELEFONISTA)
+            {
+                var inc = negocio.ObtenerIncidenciaPorId(idIncidencia);
+                return inc != null && inc.AsignadoUsuario != null && inc.AsignadoUsuario.IDUsuario == u.IDUsuario;
+            }
+            return false;
         }
 
         private bool PuedeAccionarSobre(int idIncidencia, dominio.Usuarios u)
@@ -389,8 +397,6 @@ namespace TPCallCenter_Equipo_26A
             if (u == null) return false;
             int perfil = u.Perfil?.IDPerfil ?? -1;
             if (perfil == PERFIL_ADMIN || perfil == PERFIL_SUPERVISOR) return true;
-
-            // Telefonista: sólo si es el asignado
             if (perfil == PERFIL_TELEFONISTA)
             {
                 var inc = negocio.ObtenerIncidenciaPorId(idIncidencia);
