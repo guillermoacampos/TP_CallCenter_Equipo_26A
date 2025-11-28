@@ -1,49 +1,64 @@
 using System;
-using System.Web;
+using dominio;
 using negocio;
 
 namespace TPCallCenter_Equipo_26A
 {
     public partial class Login : System.Web.UI.Page
     {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Session["LastEmail"] != null)
+                    txtEmail.Text = Session["LastEmail"].ToString();
+            }
+        }
+
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            dominio.Usuarios usuario = new dominio.Usuarios();
-            UsuariosNegocio negocio = new UsuariosNegocio();
-
             try
             {
-                usuario.Email = txtEmail.Text?.Trim();
-                usuario.Contrasena = txtPassword.Text?.Trim();
+                string email = (txtEmail.Text ?? "").Trim();
+                string pass = (txtPassword.Text ?? "").Trim();
 
-                bool ok = negocio.Login(usuario);
-
-                if (ok)
+                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(pass))
                 {
-                    // Guardar usuario con la misma clave que usan otras páginas ("Usuario")
-                    Session["Usuario"] = usuario;
-
-                    // Redirigir a la página principal
-                    Response.Redirect("Default.aspx", false);
-                    Context.ApplicationInstance.CompleteRequest();
+                    ShowError("Ingresá tu email y contraseña.");
                     return;
                 }
-                else
+
+                UsuariosNegocio usuarioNeg = new UsuariosNegocio();
+                dominio.Usuarios user = usuarioNeg.Login(email, pass);
+
+                if (user == null)
                 {
-                    // Credenciales inválidas: redirigir a la página de error o mostrar mensaje.
-                    Session["error"] = "Usuario o contraseña incorrectos";
-                    Response.Redirect("Error.aspx", false);
-                    Context.ApplicationInstance.CompleteRequest();
+                    ShowError("Email o contraseña incorrectos.");
                     return;
                 }
+
+                // Si el tipo es dominio.Usuarios, Activo existe; si aun marca error, revisa duplicidad de clase 'Usuarios'
+                if (!user.Activo)
+                {
+                    ShowError("Tu usuario está inactivo. Contacta al administrador.");
+                    return;
+                }
+
+                Session["Usuario"] = user;
+                Session["LastEmail"] = email;
+
+                Response.Redirect("~/Default.aspx");
             }
             catch (Exception ex)
             {
-                // Guardar error y redirigir a Error.aspx
-                Session["error"] = ex.Message;
-                Response.Redirect("Error.aspx", false);
-                Context.ApplicationInstance.CompleteRequest();
+                ShowError("Error al iniciar sesión: " + ex.Message);
             }
+        }
+
+        private void ShowError(string message)
+        {
+            lblError.Text = message;
+            lblError.Visible = true;
         }
     }
 }

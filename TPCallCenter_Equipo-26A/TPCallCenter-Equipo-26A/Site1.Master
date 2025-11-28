@@ -21,10 +21,41 @@
         }
         .app-sidebar a { color:#cfe8f0; text-decoration:none; padding:12px 20px; display:block; transition:background .15s; }
         .app-sidebar a:hover { background:rgba(255,255,255,0.08); color:#fff; }
-        .sidebar-footer { margin-top:auto; padding:12px 20px; border-top:1px solid rgba(255,255,255,0.15); }
-        .btn-logout { width:100%; background:#dc3545; border-color:#dc3545; }
+
+        /* Footer del sidebar */
+        .sidebar-footer {
+            margin-top:auto;
+            padding:12px 20px;
+            border-top:1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* FORZAR estilo del botón de logout en TODAS las páginas */
+        .app-sidebar .btn-logout,
+        .app-sidebar input.btn-logout,
+        .app-sidebar .btn-logout:focus,
+        .app-sidebar .btn-logout:active {
+            background-color:#dc3545 !important;
+            border-color:#dc3545 !important;
+            color:#fff !important;
+            width:100%;
+            padding:8px 12px;
+            border-radius:6px;
+            box-shadow:none !important;
+            display:inline-block;
+            -webkit-appearance:none;
+               -moz-appearance:none;
+                    appearance:none;
+        }
+        .app-sidebar .btn-logout:hover {
+            background-color:#bb2d3b !important;
+            border-color:#b02a37 !important;
+            color:#fff !important;
+        }
+
         .app-content { flex:1 1 auto; background:#f7f9fb; }
         .content-inner { padding:24px; }
+
         @media (max-width: 991.98px) {
             .app-sidebar { position:fixed; left:0; top:0; bottom:0; transform:translateX(-100%); transition:transform .2s; z-index:1040; }
             .app-sidebar.open { transform:translateX(0); }
