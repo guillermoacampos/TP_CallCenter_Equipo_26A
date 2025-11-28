@@ -4,97 +4,65 @@ using dominio;
 
 namespace negocio
 {
-    // Reemplaza este archivo completo por este contenido.
-    // Atención: usa la clase AccesoDatos existente en el proyecto.
     public class IncidenciasNegocio
     {
-        public List<int> ObtenerCantidadPorTipo()
-        {
-            List<int> cantidades = new List<int>();
-            AccesoDatos datos = new AccesoDatos();
+        // IDs de estado (ajusta si difieren en tu tabla Estados)
+        private const int ESTADO_ABIERTO = 1;
+        private const int ESTADO_EN_ANALISIS = 2;
+        private const int ESTADO_CERRADO = 3;
+        private const int ESTADO_REABIERTO = 4;
+        private const int ESTADO_ASIGNADO = 5;
+        private const int ESTADO_RESUELTO = 6;
 
+        // CREAR INCIDENCIA: devuelve NumeroReclamo (identity) y setea inc.IDIncidencia
+        public int CrearIncidencia(Incidencias inc, int idCreadorUsuario)
+        {
+            if (inc == null) throw new ArgumentNullException(nameof(inc));
+            if (inc.Cliente == null || inc.Cliente.IDCliente <= 0) throw new ArgumentException("Falta el cliente o su ID.", nameof(inc.Cliente));
+            if (inc.TipoIncidencia == null || inc.TipoIncidencia.IDTipoIncidencia <= 0) throw new ArgumentException("Falta el tipo de incidencia o su ID.", nameof(inc.TipoIncidencia));
+            if (inc.Prioridad == null || inc.Prioridad.IDPrioridad <= 0) throw new ArgumentException("Falta la prioridad o su ID.", nameof(inc.Prioridad));
+
+            int idEstado = inc.Estado?.IDEstado > 0 ? inc.Estado.IDEstado : ESTADO_ABIERTO;
+            int idAsignado = inc.AsignadoUsuario?.IDUsuario > 0 ? inc.AsignadoUsuario.IDUsuario : idCreadorUsuario;
+
+            int nuevoIdIncidencia = 0;
+            int numeroReclamo = 0;
+
+            AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT IDTipoIncidencia, COUNT(*) AS Cantidad FROM Incidencias GROUP BY IDTipoIncidencia ORDER BY IDTipoIncidencia");
+                datos.SetearConsulta("SELECT ISNULL(MAX(IDIncidencia), 0) + 1 FROM Incidencias");
                 datos.EjecutarLectura();
-
-                while (datos.Lector.Read())
-                {
-                    cantidades.Add((int)datos.Lector["Cantidad"]);
-                }
-
-                return cantidades;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
+                if (datos.Lector.Read())
+                    nuevoIdIncidencia = Convert.ToInt32(datos.Lector[0]);
                 datos.CerrarConexion();
-            }
-        }
 
-        public int CrearIncidencia(dominio.Incidencias nuevaIncidencia, int usuarioLogueadoID)
-        {
-            if (nuevaIncidencia == null) throw new ArgumentNullException(nameof(nuevaIncidencia));
+                datos = new AccesoDatos();
+                datos.SetearConsulta(@"
+                    INSERT INTO Incidencias
+                        (IDIncidencia, IDCliente, IDCreadorUsuario, IDUsuarioAsignado,
+                         IDTipoIncidencia, IDPrioridad, IDEstado, Descripcion, FechaAlta)
+                    VALUES
+                        (@idInc, @idCli, @idCreador, @idAsignado,
+                         @idTipo, @idPrioridad, @idEstado, @desc, @fechaAlta);
 
-            int nextId = 1;
-            AccesoDatos calc = new AccesoDatos();
-            try
-            {
-                calc.SetearConsulta("SELECT ISNULL(MAX(IDIncidencia), 0) + 1 AS NextId FROM Incidencias");
-                calc.EjecutarLectura();
-                if (calc.Lector.Read())
-                {
-                    object o = calc.Lector["NextId"];
-                    nextId = (o == null || o == DBNull.Value) ? 1 : Convert.ToInt32(o);
-                }
-            }
-            finally
-            {
-                calc.CerrarConexion();
-            }
+                    SELECT CAST(SCOPE_IDENTITY() AS INT) AS NumeroReclamo;");
 
-            int idEstadoInicial = ObtenerIdEstadoPorNombre_Public("Abierto");
-
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                string sql = @"
-INSERT INTO Incidencias (
-    IDIncidencia, IDCliente, IDCreadorUsuario, IDUsuarioAsignado, IDTipoIncidencia, IDPrioridad, IDEstado, Descripcion, FechaAlta, FechaResolucion, ComentarioResolucion, ComentarioCierre
-)
-VALUES (
-    @IDIncidencia, @IDCliente, @IDCreadorUsuario, @IDUsuarioAsignado, @IDTipoIncidencia, @IDPrioridad, @IDEstado, @Descripcion, @FechaAlta, @FechaResolucion, @ComentarioResolucion, @ComentarioCierre
-);
-SELECT CAST(ISNULL((SELECT MAX(NumeroReclamo) FROM Incidencias), 0) AS INT) AS NumeroReclamo;";
-
-                datos.SetearConsulta(sql);
-
-                datos.SetearParametro("@IDIncidencia", nextId);
-                datos.SetearParametro("@IDCliente", nuevaIncidencia.Cliente?.IDCliente ?? (object)DBNull.Value);
-                datos.SetearParametro("@IDCreadorUsuario", usuarioLogueadoID);
-                int asignadoId = nuevaIncidencia.AsignadoUsuario?.IDUsuario ?? usuarioLogueadoID;
-                datos.SetearParametro("@IDUsuarioAsignado", asignadoId);
-                datos.SetearParametro("@IDTipoIncidencia", nuevaIncidencia.TipoIncidencia?.IDTipoIncidencia ?? (object)DBNull.Value);
-                datos.SetearParametro("@IDPrioridad", nuevaIncidencia.Prioridad?.IDPrioridad ?? (object)DBNull.Value);
-                datos.SetearParametro("@IDEstado", idEstadoInicial);
-                datos.SetearParametro("@Descripcion", (object)nuevaIncidencia.Descripcion ?? string.Empty);
-                datos.SetearParametro("@FechaAlta", nuevaIncidencia.FechaAlta);
-                datos.SetearParametro("@FechaResolucion", DBNull.Value);
-                datos.SetearParametro("@ComentarioResolucion", DBNull.Value);
-                datos.SetearParametro("@ComentarioCierre", DBNull.Value);
+                datos.SetearParametro("@idInc", nuevoIdIncidencia);
+                datos.SetearParametro("@idCli", inc.Cliente.IDCliente);
+                datos.SetearParametro("@idCreador", idCreadorUsuario);
+                datos.SetearParametro("@idAsignado", idAsignado);
+                datos.SetearParametro("@idTipo", inc.TipoIncidencia.IDTipoIncidencia);
+                datos.SetearParametro("@idPrioridad", inc.Prioridad.IDPrioridad);
+                datos.SetearParametro("@idEstado", idEstado);
+                datos.SetearParametro("@desc", (inc.Descripcion ?? "").Trim());
+                datos.SetearParametro("@fechaAlta", DateTime.Now.Date);
 
                 datos.EjecutarLectura();
+                if (datos.Lector.Read())
+                    numeroReclamo = Convert.ToInt32(datos.Lector["NumeroReclamo"]);
 
-                int numeroReclamo = 0;
-                if (datos.Lector != null && datos.Lector.Read())
-                {
-                    object val = datos.Lector["NumeroReclamo"];
-                    numeroReclamo = (val == null || val == DBNull.Value) ? 0 : Convert.ToInt32(val);
-                }
-
+                inc.IDIncidencia = nuevoIdIncidencia;
                 return numeroReclamo;
             }
             finally
@@ -103,145 +71,51 @@ SELECT CAST(ISNULL((SELECT MAX(NumeroReclamo) FROM Incidencias), 0) AS INT) AS N
             }
         }
 
-        public void ReasignarIncidencia(int idIncidencia, Usuarios nuevoUsuarioAsignado, Usuarios usuarioActual)
-        {
-            if (usuarioActual == null) throw new UnauthorizedAccessException("No user context.");
-            int perfil = usuarioActual.Perfil?.IDPerfil ?? -1;
-            if (perfil != 3 && perfil != 2)
-                throw new UnauthorizedAccessException("Solo los supervisores o administradores pueden reasignar incidencias.");
-
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.SetearConsulta("UPDATE Incidencias SET IDUsuarioAsignado = @IDUsuarioAsignado, IDEstado = @IDEstado WHERE IDIncidencia = @IDIncidencia");
-                datos.SetearParametro("@IDUsuarioAsignado", nuevoUsuarioAsignado.IDUsuario);
-                datos.SetearParametro("@IDEstado", 5);
-                datos.SetearParametro("@IDIncidencia", idIncidencia);
-                datos.EjecutarAccion();
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
-        }
-
-        public void ResolverIncidencia(int idIncidencia, string comentarioResolucion, Usuarios usuarioActual)
-        {
-            if (usuarioActual == null) throw new UnauthorizedAccessException("No user context.");
-            int perfil = usuarioActual.Perfil?.IDPerfil ?? -1;
-            if (perfil != 3 && perfil != 2)
-                throw new UnauthorizedAccessException("Solo supervisores o administradores pueden resolver.");
-
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.SetearConsulta("UPDATE Incidencias SET IDEstado = @IDEstado, ComentarioResolucion = @ComentarioResolucion, FechaResolucion = @FechaResolucion WHERE IDIncidencia = @IDIncidencia");
-                datos.SetearParametro("@IDEstado", 6);
-                datos.SetearParametro("@ComentarioResolucion", comentarioResolucion ?? string.Empty);
-                datos.SetearParametro("@FechaResolucion", DateTime.Now);
-                datos.SetearParametro("@IDIncidencia", idIncidencia);
-                datos.EjecutarAccion();
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
-        }
-
-        public void CerrarIncidencia(int idIncidencia, string comentarioCierre, Usuarios usuarioActual)
-        {
-            if (usuarioActual == null) throw new UnauthorizedAccessException("No user context.");
-            int perfil = usuarioActual.Perfil?.IDPerfil ?? -1;
-            if (perfil != 3 && perfil != 2)
-                throw new UnauthorizedAccessException("Solo supervisores o administradores pueden cerrar.");
-
-            if (string.IsNullOrWhiteSpace(comentarioCierre))
-                throw new ArgumentException("El cierre requiere un comentario final.");
-
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.SetearConsulta("UPDATE Incidencias SET IDEstado = @IDEstado, ComentarioCierre = @ComentarioCierre WHERE IDIncidencia = @IDIncidencia");
-                datos.SetearParametro("@IDEstado", 3);
-                datos.SetearParametro("@ComentarioCierre", comentarioCierre);
-                datos.SetearParametro("@IDIncidencia", idIncidencia);
-                datos.EjecutarAccion();
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
-        }
-
-        // ObtenerTodas ahora incluye el ID/Nombre del creador y del asignado (necesario para filtrar por usuario)
+        // LISTAR TODAS
         public List<Incidencias> ObtenerTodas()
         {
-            List<Incidencias> lista = new List<Incidencias>();
+            var lista = new List<Incidencias>();
             AccesoDatos datos = new AccesoDatos();
-
             try
             {
                 datos.SetearConsulta(@"
-                    SELECT i.IDIncidencia, i.NumeroReclamo, i.Descripcion, i.FechaAlta,
-                           i.IDCliente, c.Nombre AS ClienteNombre,
-                           i.IDTipoIncidencia, t.Nombre AS TipoNombre,
-                           i.IDPrioridad, p.Nombre AS PrioridadNombre,
-                           i.IDEstado, e.Descripcion AS EstadoDescripcion,
-                           i.IDCreadorUsuario, cu.Nombre AS CreadorNombre,
-                           i.IDUsuarioAsignado, au.Nombre AS AsignadoNombre
-                    FROM Incidencias i
-                    LEFT JOIN Clientes c ON i.IDCliente = c.IDCliente
-                    LEFT JOIN TiposDeIncidencia t ON i.IDTipoIncidencia = t.IDTipoIncidencia
-                    LEFT JOIN Prioridades p ON i.IDPrioridad = p.IDPrioridad
-                    LEFT JOIN Estados e ON i.IDEstado = e.IDEstado
-                    LEFT JOIN Usuarios cu ON i.IDCreadorUsuario = cu.IDUsuario
-                    LEFT JOIN Usuarios au ON i.IDUsuarioAsignado = au.IDUsuario
-                    ORDER BY i.FechaAlta DESC");
+                    SELECT I.IDIncidencia,
+                           I.NumeroReclamo,
+                           I.IDCliente,
+                           I.IDCreadorUsuario,
+                           I.IDUsuarioAsignado,
+                           I.IDTipoIncidencia,
+                           I.IDPrioridad,
+                           I.IDEstado,
+                           I.Descripcion,
+                           I.FechaAlta,
+                           I.FechaResolucion,
+                           I.ComentarioResolucion,
+                           I.ComentarioCierre,
+                           C.Nombre   AS ClienteNombre,
+                           T.Nombre   AS TipoNombre,
+                           P.Nombre   AS PrioridadNombre,
+                           E.Descripcion AS EstadoDesc,
+                           UC.IDUsuario AS CreadorID,
+                           UC.Nombre  AS CreadorNombre,
+                           UA.IDUsuario AS AsignadoID,
+                           UA.Nombre  AS AsignadoNombre
+                    FROM Incidencias I
+                    JOIN Clientes C          ON C.IDCliente = I.IDCliente
+                    JOIN TiposDeIncidencia T ON T.IDTipoIncidencia = I.IDTipoIncidencia
+                    JOIN Prioridades P       ON P.IDPrioridad = I.IDPrioridad
+                    JOIN Estados E           ON E.IDEstado = I.IDEstado
+                    JOIN Usuarios UC         ON UC.IDUsuario = I.IDCreadorUsuario
+                    JOIN Usuarios UA         ON UA.IDUsuario = I.IDUsuarioAsignado
+                    ORDER BY I.NumeroReclamo DESC");
+
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Incidencias inc = new Incidencias
-                    {
-                        IDIncidencia = datos.Lector["IDIncidencia"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDIncidencia"]),
-                        NumeroReclamo = datos.Lector["NumeroReclamo"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["NumeroReclamo"]),
-                        Descripcion = datos.Lector["Descripcion"] == DBNull.Value ? null : (string)datos.Lector["Descripcion"],
-                        FechaAlta = datos.Lector["FechaAlta"] == DBNull.Value ? DateTime.MinValue : (DateTime)datos.Lector["FechaAlta"],
-                        Cliente = new Clientes
-                        {
-                            IDCliente = datos.Lector["IDCliente"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDCliente"]),
-                            Nombre = datos.Lector["ClienteNombre"] == DBNull.Value ? null : (string)datos.Lector["ClienteNombre"]
-                        },
-                        TipoIncidencia = new TiposDeIncidencia
-                        {
-                            IDTipoIncidencia = datos.Lector["IDTipoIncidencia"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDTipoIncidencia"]),
-                            Nombre = datos.Lector["TipoNombre"] == DBNull.Value ? null : (string)datos.Lector["TipoNombre"]
-                        },
-                        Prioridad = new Prioridades
-                        {
-                            IDPrioridad = datos.Lector["IDPrioridad"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDPrioridad"]),
-                            Nombre = datos.Lector["PrioridadNombre"] == DBNull.Value ? null : (string)datos.Lector["PrioridadNombre"]
-                        },
-                        Estado = new Estados
-                        {
-                            IDEstado = datos.Lector["IDEstado"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDEstado"]),
-                            Descripcion = datos.Lector["EstadoDescripcion"] == DBNull.Value ? null : (string)datos.Lector["EstadoDescripcion"]
-                        },
-                        CreadorUsuario = new Usuarios
-                        {
-                            IDUsuario = datos.Lector["IDCreadorUsuario"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDCreadorUsuario"]),
-                            Nombre = datos.Lector["CreadorNombre"] == DBNull.Value ? null : (string)datos.Lector["CreadorNombre"]
-                        },
-                        AsignadoUsuario = new Usuarios
-                        {
-                            IDUsuario = datos.Lector["IDUsuarioAsignado"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDUsuarioAsignado"]),
-                            Nombre = datos.Lector["AsignadoNombre"] == DBNull.Value ? null : (string)datos.Lector["AsignadoNombre"]
-                        }
-                    };
-
+                    var inc = MapearIncidencia(datos);
                     lista.Add(inc);
                 }
-
                 return lista;
             }
             finally
@@ -250,121 +124,47 @@ SELECT CAST(ISNULL((SELECT MAX(NumeroReclamo) FROM Incidencias), 0) AS INT) AS N
             }
         }
 
-        public List<Incidencias> ObtenerPorEstado(int idEstado)
-        {
-            List<Incidencias> lista = new List<Incidencias>();
-            AccesoDatos datos = new AccesoDatos();
-
-            try
-            {
-                datos.SetearConsulta("SELECT * FROM Incidencias WHERE IDEstado = @IDEstado");
-                datos.SetearParametro("@IDEstado", idEstado);
-                datos.EjecutarLectura();
-
-                while (datos.Lector.Read())
-                {
-                    Incidencias inc = new Incidencias
-                    {
-                        IDIncidencia = datos.Lector["IDIncidencia"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDIncidencia"]),
-                        Descripcion = datos.Lector["Descripcion"] == DBNull.Value ? null : (string)datos.Lector["Descripcion"],
-                        FechaAlta = datos.Lector["FechaAlta"] == DBNull.Value ? DateTime.MinValue : (DateTime)datos.Lector["FechaAlta"],
-                        Estado = new Estados { IDEstado = datos.Lector["IDEstado"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDEstado"]) },
-                        AsignadoUsuario = new Usuarios()
-                    };
-                    lista.Add(inc);
-                }
-
-                return lista;
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
-        }
-        public void ReasignarIncidencia(int idIncidencia, int nuevoUsuarioId, dominio.Usuarios supervisor)
-        {
-            if (supervisor?.Perfil?.IDPerfil != 3) // SOLO supervisor
-                throw new UnauthorizedAccessException("Solo el supervisor puede reasignar incidencias.");
-
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.SetearConsulta("UPDATE Incidencias SET IDUsuarioAsignado = @nuevo WHERE IDIncidencia = @id");
-                datos.SetearParametro("@nuevo", nuevoUsuarioId);
-                datos.SetearParametro("@id", idIncidencia);
-                datos.EjecutarAccion();
-            }
-            finally
-            {
-                datos.CerrarConexion();
-            }
-        }
+        // DETALLE POR ID
         public Incidencias ObtenerIncidenciaPorId(int idIncidencia)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.SetearConsulta(@"
-                    SELECT i.IDIncidencia, i.NumeroReclamo, i.Descripcion, i.FechaAlta,
-                           i.IDCliente, c.Nombre AS ClienteNombre,
-                           i.IDTipoIncidencia, t.Nombre AS TipoNombre,
-                           i.IDPrioridad, p.Nombre AS PrioridadNombre,
-                           i.IDEstado, e.Descripcion AS EstadoDescripcion,
-                           i.IDCreadorUsuario, cu.Nombre AS CreadorNombre,
-                           i.IDUsuarioAsignado, au.Nombre AS AsignadoNombre
-                    FROM Incidencias i
-                    LEFT JOIN Clientes c ON i.IDCliente = c.IDCliente
-                    LEFT JOIN TiposDeIncidencia t ON i.IDTipoIncidencia = t.IDTipoIncidencia
-                    LEFT JOIN Prioridades p ON i.IDPrioridad = p.IDPrioridad
-                    LEFT JOIN Estados e ON i.IDEstado = e.IDEstado
-                    LEFT JOIN Usuarios cu ON i.IDCreadorUsuario = cu.IDUsuario
-                    LEFT JOIN Usuarios au ON i.IDUsuarioAsignado = au.IDUsuario
-                    WHERE i.IDIncidencia = @id");
+                    SELECT I.IDIncidencia,
+                           I.NumeroReclamo,
+                           I.IDCliente,
+                           I.IDCreadorUsuario,
+                           I.IDUsuarioAsignado,
+                           I.IDTipoIncidencia,
+                           I.IDPrioridad,
+                           I.IDEstado,
+                           I.Descripcion,
+                           I.FechaAlta,
+                           I.FechaResolucion,
+                           I.ComentarioResolucion,
+                           I.ComentarioCierre,
+                           C.Nombre   AS ClienteNombre,
+                           T.Nombre   AS TipoNombre,
+                           P.Nombre   AS PrioridadNombre,
+                           E.Descripcion AS EstadoDesc,
+                           UC.IDUsuario AS CreadorID,
+                           UC.Nombre  AS CreadorNombre,
+                           UA.IDUsuario AS AsignadoID,
+                           UA.Nombre  AS AsignadoNombre
+                    FROM Incidencias I
+                    JOIN Clientes C          ON C.IDCliente = I.IDCliente
+                    JOIN TiposDeIncidencia T ON T.IDTipoIncidencia = I.IDTipoIncidencia
+                    JOIN Prioridades P       ON P.IDPrioridad = I.IDPrioridad
+                    JOIN Estados E           ON E.IDEstado = I.IDEstado
+                    JOIN Usuarios UC         ON UC.IDUsuario = I.IDCreadorUsuario
+                    JOIN Usuarios UA         ON UA.IDUsuario = I.IDUsuarioAsignado
+                    WHERE I.IDIncidencia = @id");
                 datos.SetearParametro("@id", idIncidencia);
                 datos.EjecutarLectura();
 
                 if (datos.Lector.Read())
-                {
-                    Incidencias inc = new Incidencias
-                    {
-                        IDIncidencia = datos.Lector["IDIncidencia"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDIncidencia"]),
-                        NumeroReclamo = datos.Lector["NumeroReclamo"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["NumeroReclamo"]),
-                        Descripcion = datos.Lector["Descripcion"] == DBNull.Value ? null : (string)datos.Lector["Descripcion"],
-                        FechaAlta = datos.Lector["FechaAlta"] == DBNull.Value ? DateTime.MinValue : (DateTime)datos.Lector["FechaAlta"],
-                        Cliente = new Clientes
-                        {
-                            IDCliente = datos.Lector["IDCliente"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDCliente"]),
-                            Nombre = datos.Lector["ClienteNombre"] == DBNull.Value ? null : (string)datos.Lector["ClienteNombre"]
-                        },
-                        TipoIncidencia = new TiposDeIncidencia
-                        {
-                            IDTipoIncidencia = datos.Lector["IDTipoIncidencia"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDTipoIncidencia"]),
-                            Nombre = datos.Lector["TipoNombre"] == DBNull.Value ? null : (string)datos.Lector["TipoNombre"]
-                        },
-                        Prioridad = new Prioridades
-                        {
-                            IDPrioridad = datos.Lector["IDPrioridad"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDPrioridad"]),
-                            Nombre = datos.Lector["PrioridadNombre"] == DBNull.Value ? null : (string)datos.Lector["PrioridadNombre"]
-                        },
-                        Estado = new Estados
-                        {
-                            IDEstado = datos.Lector["IDEstado"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDEstado"]),
-                            Descripcion = datos.Lector["EstadoDescripcion"] == DBNull.Value ? null : (string)datos.Lector["EstadoDescripcion"]
-                        },
-                        CreadorUsuario = new Usuarios
-                        {
-                            IDUsuario = datos.Lector["IDCreadorUsuario"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDCreadorUsuario"]),
-                            Nombre = datos.Lector["CreadorNombre"] == DBNull.Value ? null : (string)datos.Lector["CreadorNombre"]
-                        },
-                        AsignadoUsuario = new Usuarios
-                        {
-                            IDUsuario = datos.Lector["IDUsuarioAsignado"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDUsuarioAsignado"]),
-                            Nombre = datos.Lector["AsignadoNombre"] == DBNull.Value ? null : (string)datos.Lector["AsignadoNombre"]
-                        }
-                    };
-
-                    return inc;
-                }
+                    return MapearIncidencia(datos);
 
                 return null;
             }
@@ -374,27 +174,153 @@ SELECT CAST(ISNULL((SELECT MAX(NumeroReclamo) FROM Incidencias), 0) AS INT) AS N
             }
         }
 
-        public int ObtenerIdEstadoPorNombre_Public(string nombreEstado)
+        // MODIFICAR DESCRIPCIÓN Y PASAR A EN ANÁLISIS
+        public void ModificarDescripcionYEstado(int idIncidencia, string nuevaDescripcion, int? estadoAnalisisOverride = null)
         {
+            if (string.IsNullOrWhiteSpace(nuevaDescripcion))
+                throw new ArgumentException("La descripción no puede estar vacía.", nameof(nuevaDescripcion));
+
+            int estadoFinal = estadoAnalisisOverride ?? ESTADO_EN_ANALISIS;
+
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT IDEstado FROM Estados WHERE Descripcion = @nombre");
-                datos.SetearParametro("@nombre", nombreEstado);
-                datos.EjecutarLectura();
-
-                if (datos.Lector.Read())
-                {
-                    object val = datos.Lector["IDEstado"];
-                    if (val != null && int.TryParse(val.ToString(), out int id)) return id;
-                }
-
-                throw new Exception($"Estado '{nombreEstado}' no encontrado en la tabla Estados.");
+                datos.SetearConsulta("UPDATE Incidencias SET Descripcion = @desc, IDEstado = @estado WHERE IDIncidencia = @id");
+                datos.SetearParametro("@desc", nuevaDescripcion.Trim());
+                datos.SetearParametro("@estado", estadoFinal);
+                datos.SetearParametro("@id", idIncidencia);
+                datos.EjecutarAccion();
             }
             finally
             {
                 datos.CerrarConexion();
             }
+        }
+
+        // RESOLVER (requiere comentario, guarda fecha)
+        public void ResolverIncidenciaConComentario(int idIncidencia, string comentarioResolucion, Usuarios usuarioAccion, int? estadoResueltoOverride = null)
+        {
+            if (string.IsNullOrWhiteSpace(comentarioResolucion))
+                throw new ArgumentException("El comentario de resolución es obligatorio.", nameof(comentarioResolucion));
+
+            int estadoFinal = estadoResueltoOverride ?? ESTADO_RESUELTO;
+
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta(@"UPDATE Incidencias 
+                                       SET ComentarioResolucion = @coment,
+                                           FechaResolucion = @fecha,
+                                           IDEstado = @estado
+                                       WHERE IDIncidencia = @id");
+                datos.SetearParametro("@coment", comentarioResolucion.Trim());
+                datos.SetearParametro("@fecha", DateTime.Now.Date);
+                datos.SetearParametro("@estado", estadoFinal);
+                datos.SetearParametro("@id", idIncidencia);
+                datos.EjecutarAccion();
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        // CERRAR (requiere comentario)
+        public void CerrarIncidenciaConComentario(int idIncidencia, string comentarioCierre, Usuarios usuarioAccion, int? estadoCerradoOverride = null)
+        {
+            if (string.IsNullOrWhiteSpace(comentarioCierre))
+                throw new ArgumentException("El comentario de cierre es obligatorio.", nameof(comentarioCierre));
+
+            int estadoFinal = estadoCerradoOverride ?? ESTADO_CERRADO;
+
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta(@"UPDATE Incidencias 
+                                       SET ComentarioCierre = @coment,
+                                           IDEstado = @estado
+                                       WHERE IDIncidencia = @id");
+                datos.SetearParametro("@coment", comentarioCierre.Trim());
+                datos.SetearParametro("@estado", estadoFinal);
+                datos.SetearParametro("@id", idIncidencia);
+                datos.EjecutarAccion();
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        // REASIGNAR (cambia asignado y estado a Asignado)
+        public void ReasignarIncidencia(int idIncidencia, int nuevoUsuarioAsignadoId, Usuarios supervisor)
+        {
+            // Validación de perfil si la quieres estricta:
+            // if (supervisor?.Perfil?.IDPerfil != 3) throw new UnauthorizedAccessException("Solo supervisor puede reasignar.");
+
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta(@"UPDATE Incidencias 
+                                       SET IDUsuarioAsignado = @nuevo, IDEstado = @estado
+                                       WHERE IDIncidencia = @id");
+                datos.SetearParametro("@nuevo", nuevoUsuarioAsignadoId);
+                datos.SetearParametro("@estado", ESTADO_ASIGNADO);
+                datos.SetearParametro("@id", idIncidencia);
+                datos.EjecutarAccion();
+            }
+            finally
+            {
+                datos.CerrarConexion();
+            }
+        }
+
+        // Wrappers antiguos si los usabas en otras partes
+        public void ResolverIncidencia(int idIncidencia, string comentario, Usuarios usuarioAccion)
+            => ResolverIncidenciaConComentario(idIncidencia, comentario, usuarioAccion, ESTADO_RESUELTO);
+
+        public void CerrarIncidencia(int idIncidencia, string comentario, Usuarios usuarioAccion)
+            => CerrarIncidenciaConComentario(idIncidencia, comentario, usuarioAccion, ESTADO_CERRADO);
+
+        // Mapeo reutilizable
+        private Incidencias MapearIncidencia(AccesoDatos datos)
+        {
+            return new Incidencias
+            {
+                IDIncidencia = Convert.ToInt32(datos.Lector["IDIncidencia"]),
+                NumeroReclamo = Convert.ToInt32(datos.Lector["NumeroReclamo"]),
+                Descripcion = datos.Lector["Descripcion"] == DBNull.Value ? null : (string)datos.Lector["Descripcion"],
+                ComentarioResolucion = datos.Lector["ComentarioResolucion"] == DBNull.Value ? null : (string)datos.Lector["ComentarioResolucion"],
+                ComentarioCierre = datos.Lector["ComentarioCierre"] == DBNull.Value ? null : (string)datos.Lector["ComentarioCierre"],
+                FechaAlta = Convert.ToDateTime(datos.Lector["FechaAlta"]),
+                FechaResolucion = datos.Lector["FechaResolucion"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(datos.Lector["FechaResolucion"]),
+                Estado = new Estados
+                {
+                    IDEstado = Convert.ToInt32(datos.Lector["IDEstado"]),
+                    Descripcion = datos.Lector["EstadoDesc"] == DBNull.Value ? "" : (string)datos.Lector["EstadoDesc"]
+                },
+                Cliente = new Clientes
+                {
+                    Nombre = datos.Lector["ClienteNombre"] == DBNull.Value ? "" : (string)datos.Lector["ClienteNombre"]
+                },
+                TipoIncidencia = new TiposDeIncidencia
+                {
+                    Nombre = datos.Lector["TipoNombre"] == DBNull.Value ? "" : (string)datos.Lector["TipoNombre"]
+                },
+                Prioridad = new Prioridades
+                {
+                    Nombre = datos.Lector["PrioridadNombre"] == DBNull.Value ? "" : (string)datos.Lector["PrioridadNombre"]
+                },
+                CreadorUsuario = new Usuarios
+                {
+                    IDUsuario = Convert.ToInt32(datos.Lector["CreadorID"]),
+                    Nombre = datos.Lector["CreadorNombre"] == DBNull.Value ? "" : (string)datos.Lector["CreadorNombre"]
+                },
+                AsignadoUsuario = new Usuarios
+                {
+                    IDUsuario = Convert.ToInt32(datos.Lector["AsignadoID"]),
+                    Nombre = datos.Lector["AsignadoNombre"] == DBNull.Value ? "" : (string)datos.Lector["AsignadoNombre"]
+                }
+            };
         }
     }
 }

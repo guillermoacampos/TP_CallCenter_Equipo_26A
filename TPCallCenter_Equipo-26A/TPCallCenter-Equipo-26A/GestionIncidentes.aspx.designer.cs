@@ -141,6 +141,24 @@ namespace TPCallCenter_Equipo_26A
         protected global::System.Web.UI.WebControls.Label lblDetalleDescripcion;
 
         /// <summary>
+        /// Control lblDetalleComentarioResolucion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDetalleComentarioResolucion;
+
+        /// <summary>
+        /// Control lblDetalleComentarioCierre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDetalleComentarioCierre;
+
+        /// <summary>
         /// Control lblDetalleCreador.
         /// </summary>
         /// <remarks>
@@ -159,58 +177,166 @@ namespace TPCallCenter_Equipo_26A
         protected global::System.Web.UI.WebControls.Label lblDetalleAsignado;
 
         /// <summary>
-        /// Control pnlReasignar.
+        /// Control pnlEditar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlReasignar;
+        protected global::System.Web.UI.WebControls.Panel pnlEditar;
 
         /// <summary>
-        /// Control hfIncidenciaId.
+        /// Control hfEditIncidenciaId.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfIncidenciaId;
+        protected global::System.Web.UI.WebControls.HiddenField hfEditIncidenciaId;
 
         /// <summary>
-        /// Control ddlUsuarios.
+        /// Control txtNuevaDescripcion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlUsuarios;
+        protected global::System.Web.UI.WebControls.TextBox txtNuevaDescripcion;
 
         /// <summary>
-        /// Control btnReasignar.
+        /// Control btnGuardarEdicion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReasignar;
+        protected global::System.Web.UI.WebControls.Button btnGuardarEdicion;
 
         /// <summary>
-        /// Control lblReasignarOk.
+        /// Control lblEditarOk.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblReasignarOk;
+        protected global::System.Web.UI.WebControls.Label lblEditarOk;
 
         /// <summary>
-        /// Control lblReasignarError.
+        /// Control lblEditarError.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblReasignarError;
+        protected global::System.Web.UI.WebControls.Label lblEditarError;
+
+        /// <summary>
+        /// Control pnlResolver.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlResolver;
+
+        /// <summary>
+        /// Control hfResolverIncidenciaId.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfResolverIncidenciaId;
+
+        /// <summary>
+        /// Control txtComentarioResolucion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtComentarioResolucion;
+
+        /// <summary>
+        /// Control btnConfirmarResolucion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfirmarResolucion;
+
+        /// <summary>
+        /// Control lblResolverOk.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblResolverOk;
+
+        /// <summary>
+        /// Control lblResolverError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblResolverError;
+
+        /// <summary>
+        /// Control pnlCerrar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCerrar;
+
+        /// <summary>
+        /// Control hfCerrarIncidenciaId.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfCerrarIncidenciaId;
+
+        /// <summary>
+        /// Control txtComentarioCierre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtComentarioCierre;
+
+        /// <summary>
+        /// Control btnConfirmarCierre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfirmarCierre;
+
+        /// <summary>
+        /// Control lblCerrarOk.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCerrarOk;
+
+        /// <summary>
+        /// Control lblCerrarError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCerrarError;
 
         /// <summary>
         /// Control btnVolverDetalle.

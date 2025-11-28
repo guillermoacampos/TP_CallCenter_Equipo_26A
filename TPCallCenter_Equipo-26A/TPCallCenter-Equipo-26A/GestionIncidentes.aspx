@@ -4,8 +4,9 @@
     <style>
         .toolbar { margin-bottom: 15px; }
         .detalle-box { background: #fff; border: 1px solid #ddd; padding: 16px; margin-bottom: 20px; border-radius:6px; }
-        .reasign-box { background:#f8f9fa; border:1px solid #e2e6ea; padding:12px; border-radius:6px; margin-top:12px; }
+        .reasign-box, .edit-box, .accion-box { background:#f8f9fa; border:1px solid #e2e6ea; padding:12px; border-radius:6px; margin-top:12px; }
         .alert-inline { margin-top:8px; }
+        .grid-actions .btn { margin-right: 4px; margin-bottom: 4px; }
     </style>
 </asp:Content>
 
@@ -28,6 +29,7 @@
             </div>
         </div>
 
+        <!-- Panel de detalle -->
         <asp:Panel ID="pnlDetalle" runat="server" Visible="false" CssClass="detalle-box">
             <asp:Label ID="lblDetalleError" runat="server" CssClass="alert alert-danger" Visible="false" />
 
@@ -53,6 +55,12 @@
                 <dt class="col-sm-3">Descripción</dt>
                 <dd class="col-sm-9"><asp:Label ID="lblDetalleDescripcion" runat="server" /></dd>
 
+                <dt class="col-sm-3">Comentario Resolución</dt>
+                <dd class="col-sm-9"><asp:Label ID="lblDetalleComentarioResolucion" runat="server" /></dd>
+
+                <dt class="col-sm-3">Comentario Cierre</dt>
+                <dd class="col-sm-9"><asp:Label ID="lblDetalleComentarioCierre" runat="server" /></dd>
+
                 <dt class="col-sm-3">Creador</dt>
                 <dd class="col-sm-9"><asp:Label ID="lblDetalleCreador" runat="server" /></dd>
 
@@ -60,17 +68,43 @@
                 <dd class="col-sm-9"><asp:Label ID="lblDetalleAsignado" runat="server" /></dd>
             </dl>
 
-            <!-- Panel de reasignación (solo supervisor) -->
-            <asp:Panel ID="pnlReasignar" runat="server" Visible="false" CssClass="reasign-box">
-                <h5 class="mb-2">Reasignar incidencia</h5>
-                <asp:HiddenField ID="hfIncidenciaId" runat="server" />
+            <!-- Modificar descripción y pasar a 'En análisis' -->
+            <asp:Panel ID="pnlEditar" runat="server" Visible="false" CssClass="edit-box">
+                <h5 class="mb-2">Modificar descripción</h5>
+                <asp:HiddenField ID="hfEditIncidenciaId" runat="server" />
                 <div class="form-group">
-                    <label for="ddlUsuarios" class="form-label">Nuevo usuario asignado</label>
-                    <asp:DropDownList ID="ddlUsuarios" runat="server" CssClass="form-control" />
+                    <label for="txtNuevaDescripcion" class="form-label">Nueva descripción</label>
+                    <asp:TextBox ID="txtNuevaDescripcion" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3" />
                 </div>
-                <asp:Button ID="btnReasignar" runat="server" CssClass="btn btn-warning btn-sm" Text="Guardar reasignación" OnClick="btnReasignar_Click" />
-                <asp:Label ID="lblReasignarOk" runat="server" CssClass="alert alert-success alert-inline" Visible="false" />
-                <asp:Label ID="lblReasignarError" runat="server" CssClass="alert alert-danger alert-inline" Visible="false" />
+                <asp:Button ID="btnGuardarEdicion" runat="server" CssClass="btn btn-primary btn-sm" Text="Guardar y pasar a 'En análisis'" OnClick="btnGuardarEdicion_Click" />
+                <asp:Label ID="lblEditarOk" runat="server" CssClass="alert alert-success alert-inline" Visible="false" />
+                <asp:Label ID="lblEditarError" runat="server" CssClass="alert alert-danger alert-inline" Visible="false" />
+            </asp:Panel>
+
+            <!-- Resolver: requiere comentario -->
+            <asp:Panel ID="pnlResolver" runat="server" Visible="false" CssClass="accion-box">
+                <h5 class="mb-2">Resolver incidencia</h5>
+                <asp:HiddenField ID="hfResolverIncidenciaId" runat="server" />
+                <div class="form-group">
+                    <label for="txtComentarioResolucion" class="form-label">Comentario de resolución (obligatorio)</label>
+                    <asp:TextBox ID="txtComentarioResolucion" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3" />
+                </div>
+                <asp:Button ID="btnConfirmarResolucion" runat="server" CssClass="btn btn-warning btn-sm" Text="Confirmar resolución" OnClick="btnConfirmarResolucion_Click" />
+                <asp:Label ID="lblResolverOk" runat="server" CssClass="alert alert-success alert-inline" Visible="false" />
+                <asp:Label ID="lblResolverError" runat="server" CssClass="alert alert-danger alert-inline" Visible="false" />
+            </asp:Panel>
+
+            <!-- Cerrar: requiere comentario -->
+            <asp:Panel ID="pnlCerrar" runat="server" Visible="false" CssClass="accion-box">
+                <h5 class="mb-2">Cerrar incidencia</h5>
+                <asp:HiddenField ID="hfCerrarIncidenciaId" runat="server" />
+                <div class="form-group">
+                    <label for="txtComentarioCierre" class="form-label">Comentario de cierre (obligatorio)</label>
+                    <asp:TextBox ID="txtComentarioCierre" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="3" />
+                </div>
+                <asp:Button ID="btnConfirmarCierre" runat="server" CssClass="btn btn-danger btn-sm" Text="Confirmar cierre" OnClick="btnConfirmarCierre_Click" />
+                <asp:Label ID="lblCerrarOk" runat="server" CssClass="alert alert-success alert-inline" Visible="false" />
+                <asp:Label ID="lblCerrarError" runat="server" CssClass="alert alert-danger alert-inline" Visible="false" />
             </asp:Panel>
 
             <div class="mt-3">
@@ -95,10 +129,12 @@
                 <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
                 <asp:TemplateField HeaderText="Acciones">
                     <ItemTemplate>
-                        <asp:Button ID="btnVer" runat="server" CssClass="btn btn-info btn-sm" Text="Ver" CommandName="Ver" CommandArgument='<%# Container.DataItemIndex %>' />
-                        <asp:Button ID="btnResolver" runat="server" CssClass="btn btn-warning btn-sm" Text="Resolver" CommandName="Resolver" CommandArgument='<%# Container.DataItemIndex %>' />
-                        <asp:Button ID="btnCerrar" runat="server" CssClass="btn btn-danger btn-sm" Text="Cerrar" CommandName="Cerrar" CommandArgument='<%# Container.DataItemIndex %>' />
-                        <asp:Button ID="btnReasignarRow" runat="server" CssClass="btn btn-secondary btn-sm" Text="Reasignar" CommandName="Reasignar" CommandArgument='<%# Container.DataItemIndex %>' />
+                        <div class="grid-actions">
+                            <asp:Button ID="btnVer" runat="server" CssClass="btn btn-info btn-sm" Text="Ver" CommandName="Ver" CommandArgument='<%# Container.DataItemIndex %>' />
+                            <asp:Button ID="btnModificar" runat="server" CssClass="btn btn-secondary btn-sm" Text="Modificar" CommandName="Modificar" CommandArgument='<%# Container.DataItemIndex %>' />
+                            <asp:Button ID="btnResolver" runat="server" CssClass="btn btn-warning btn-sm" Text="Resolver" CommandName="Resolver" CommandArgument='<%# Container.DataItemIndex %>' />
+                            <asp:Button ID="btnCerrar" runat="server" CssClass="btn btn-danger btn-sm" Text="Cerrar" CommandName="Cerrar" CommandArgument='<%# Container.DataItemIndex %>' />
+                        </div>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

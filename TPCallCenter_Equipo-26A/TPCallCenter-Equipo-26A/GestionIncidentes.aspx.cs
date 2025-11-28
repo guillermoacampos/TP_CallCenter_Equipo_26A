@@ -13,9 +13,16 @@ namespace TPCallCenter_Equipo_26A
         private EstadosNegocio estadosNeg = new EstadosNegocio();
         private UsuariosNegocio usuariosNeg = new UsuariosNegocio();
 
+        // Perfiles
         private const int PERFIL_TELEFONISTA = 1;
         private const int PERFIL_ADMIN = 2;
         private const int PERFIL_SUPERVISOR = 3;
+
+        // IDs de Estado DEFINITIVOS (según tu clase Incidencias.CambiarEstado)
+        // 1 Abierto, 2 En análisis, 3 Cerrado, 4 Reabierto, 5 Asignado, 6 Resuelto
+        private const int ESTADO_EN_ANALISIS = 2;
+        private const int ESTADO_RESUELTO = 6;
+        private const int ESTADO_CERRADO = 3;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -74,10 +81,10 @@ namespace TPCallCenter_Equipo_26A
                 int perfil = usuario.Perfil?.IDPerfil ?? -1;
                 if (perfil == PERFIL_TELEFONISTA)
                 {
-                    // Telefonista ve solo las incidencias asignadas a él
+                    // Telefonista ve solo sus incidencias (pero puede resolver/cerrar las que ve)
                     lista = lista.Where(i => i.AsignadoUsuario != null && i.AsignadoUsuario.IDUsuario == usuario.IDUsuario).ToList();
                 }
-                // Admin y Supervisor ven todo
+                // Admin y Supervisor ven todas
 
                 if (ddlFiltroEstado.SelectedValue != "0")
                 {
@@ -129,35 +136,53 @@ namespace TPCallCenter_Equipo_26A
             {
                 switch (e.CommandName)
                 {
-                    case "Resolver":
-                        negocio.ResolverIncidencia(idIncidencia, "Resolución automática.", usuarioLogueado);
-                        BindGrid();
-                        break;
-                    case "Cerrar":
-                        negocio.CerrarIncidencia(idIncidencia, "Cierre automático.", usuarioLogueado);
-                        BindGrid();
-                        break;
                     case "Ver":
                         MostrarDetallePanel(idIncidencia);
                         break;
-                    case "Reasignar":
-                        // Solo supervisor puede abrir la reasignación
-                        if (usuarioLogueado.Perfil?.IDPerfil == PERFIL_SUPERVISOR)
-                        {
-                            MostrarDetallePanel(idIncidencia, cargarUsuarios: true, habilitarReasignar: true);
-                        }
-                        else
+
+                    case "Modificar":
+                        // Solo Admin o Supervisor pueden modificar
+                        if (!PuedeModificar(usuarioLogueado))
                         {
                             lblError.Visible = true;
-                            lblError.Text = "No tienes permiso para reasignar incidencias.";
+                            lblError.Text = "No tienes permiso para modificar esta incidencia.";
+                            return;
                         }
+                        MostrarDetallePanel(idIncidencia);
+                        pnlEditar.Visible = true;
+                        hfEditIncidenciaId.Value = idIncidencia.ToString();
+                        txtNuevaDescripcion.Text = lblDetalleDescripcion.Text;
+                        break;
+
+                    case "Resolver":
+                        // Debe poder verla (telefonista si es asignado, admin o supervisor siempre)
+                        if (!PuedeAccionarSobre(idIncidencia, usuarioLogueado))
+                        {
+                            lblError.Visible = true;
+                            lblError.Text = "No tienes permiso para resolver esta incidencia.";
+                            return;
+                        }
+                        MostrarDetallePanel(idIncidencia);
+                        pnlResolver.Visible = true;
+                        hfResolverIncidenciaId.Value = idIncidencia.ToString();
+                        lblResolverOk.Visible = false;
+                        lblResolverError.Visible = false;
+                        break;
+
+                    case "Cerrar":
+                        if (!PuedeAccionarSobre(idIncidencia, usuarioLogueado))
+                        {
+                            lblError.Visible = true;
+                            lblError.Text = "No tienes permiso para cerrar esta incidencia.";
+                            return;
+                        }
+                        MostrarDetallePanel(idIncidencia);
+                        pnlCerrar.Visible = true;
+                        hfCerrarIncidenciaId.Value = idIncidencia.ToString();
+                        lblCerrarOk.Visible = false;
+                        lblCerrarError.Visible = false;
                         break;
                 }
-            }
-            catch (UnauthorizedAccessException uex)
-            {
-                lblError.Visible = true;
-                lblError.Text = uex.Message;
             }
             catch (Exception ex)
             {
@@ -173,37 +198,27 @@ namespace TPCallCenter_Equipo_26A
             var usuario = Session["Usuario"] as dominio.Usuarios;
             int perfil = usuario?.Perfil?.IDPerfil ?? -1;
 
+            var btnModificar = e.Row.FindControl("btnModificar") as Button;
             var btnResolver = e.Row.FindControl("btnResolver") as Button;
             var btnCerrar = e.Row.FindControl("btnCerrar") as Button;
-            var btnReasignar = e.Row.FindControl("btnReasignarRow") as Button;
 
-            // Telefonista: no ve resolver/cerrar ni reasignar
             if (perfil == PERFIL_TELEFONISTA)
             {
-                if (btnResolver != null) btnResolver.Visible = false;
-                if (btnCerrar != null) btnCerrar.Visible = false;
-                if (btnReasignar != null) btnReasignar.Visible = false;
+                // Telefonista: NO modificar; SÍ resolver y cerrar (sobre las incidencias que ya filtra BindGrid)
+                if (btnModificar != null) btnModificar.Visible = false;
+                if (btnResolver != null) btnResolver.Visible = true;
+                if (btnCerrar != null) btnCerrar.Visible = true;
             }
             else
             {
-                // Admin: ve resolver/cerrar, NO ve reasignar
-                if (perfil == PERFIL_ADMIN)
-                {
-                    if (btnResolver != null) btnResolver.Visible = true;
-                    if (btnCerrar != null) btnCerrar.Visible = true;
-                    if (btnReasignar != null) btnReasignar.Visible = false;
-                }
-                // Supervisor: ve todo incluyendo reasignar
-                if (perfil == PERFIL_SUPERVISOR)
-                {
-                    if (btnResolver != null) btnResolver.Visible = true;
-                    if (btnCerrar != null) btnCerrar.Visible = true;
-                    if (btnReasignar != null) btnReasignar.Visible = true;
-                }
+                // Admin y Supervisor: pueden todo
+                if (btnModificar != null) btnModificar.Visible = true;
+                if (btnResolver != null) btnResolver.Visible = true;
+                if (btnCerrar != null) btnCerrar.Visible = true;
             }
         }
 
-        private void MostrarDetallePanel(int idIncidencia, bool cargarUsuarios = false, bool habilitarReasignar = false)
+        private void MostrarDetallePanel(int idIncidencia)
         {
             try
             {
@@ -237,16 +252,14 @@ namespace TPCallCenter_Equipo_26A
                 lblDetalleEstado.Text = inc.Estado?.Descripcion ?? "";
                 lblDetalleFechaAlta.Text = inc.FechaAlta == DateTime.MinValue ? "" : inc.FechaAlta.ToString("yyyy-MM-dd");
                 lblDetalleDescripcion.Text = inc.Descripcion ?? "";
+                lblDetalleComentarioResolucion.Text = inc.ComentarioResolucion ?? "";
+                lblDetalleComentarioCierre.Text = inc.ComentarioCierre ?? "";
                 lblDetalleCreador.Text = inc.CreadorUsuario?.Nombre ?? "";
                 lblDetalleAsignado.Text = inc.AsignadoUsuario?.Nombre ?? "";
 
-                pnlReasignar.Visible = (habilitarReasignar && perfil == PERFIL_SUPERVISOR);
-
-                if (pnlReasignar.Visible && cargarUsuarios)
-                {
-                    hfIncidenciaId.Value = inc.IDIncidencia.ToString();
-                    CargarUsuariosAsignables(inc.AsignadoUsuario?.IDUsuario);
-                }
+                pnlEditar.Visible = false;
+                pnlResolver.Visible = false;
+                pnlCerrar.Visible = false;
             }
             catch (Exception ex)
             {
@@ -256,67 +269,134 @@ namespace TPCallCenter_Equipo_26A
             }
         }
 
-        private void CargarUsuariosAsignables(int? idSeleccionado)
+        protected void btnGuardarEdicion_Click(object sender, EventArgs e)
         {
             try
             {
-                var listaUsuarios = usuariosNeg.listar(); // Ajustar si hay método específico
-                ddlUsuarios.DataSource = listaUsuarios;
-                ddlUsuarios.DataTextField = "Nombre";
-                ddlUsuarios.DataValueField = "IDUsuario";
-                ddlUsuarios.DataBind();
+                int id = int.Parse(hfEditIncidenciaId.Value);
+                string nuevaDesc = (txtNuevaDescripcion.Text ?? "").Trim();
 
-                if (idSeleccionado.HasValue)
+                if (string.IsNullOrEmpty(nuevaDesc))
                 {
-                    var item = ddlUsuarios.Items.FindByValue(idSeleccionado.Value.ToString());
-                    if (item != null) ddlUsuarios.SelectedValue = item.Value;
+                    lblEditarError.Visible = true;
+                    lblEditarError.Text = "La descripción no puede estar vacía.";
+                    lblEditarOk.Visible = false;
+                    return;
                 }
-            }
-            catch (Exception ex)
-            {
-                lblReasignarError.Visible = true;
-                lblReasignarError.Text = "Error al cargar usuarios: " + ex.Message;
-            }
-        }
 
-        protected void btnReasignar_Click(object sender, EventArgs e)
-        {
-            var usuario = Session["Usuario"] as dominio.Usuarios;
-            if (usuario?.Perfil?.IDPerfil != PERFIL_SUPERVISOR)
-            {
-                lblReasignarError.Visible = true;
-                lblReasignarError.Text = "No tienes permiso para reasignar.";
-                return;
-            }
+                negocio.ModificarDescripcionYEstado(id, nuevaDesc, ESTADO_EN_ANALISIS);
 
-            try
-            {
-                int idIncidencia = int.Parse(hfIncidenciaId.Value);
-                int nuevoUsuarioId = int.Parse(ddlUsuarios.SelectedValue);
+                lblEditarOk.Visible = true;
+                lblEditarOk.Text = "Descripción actualizada y estado cambiado a 'En análisis'.";
+                lblEditarError.Visible = false;
 
-                negocio.ReasignarIncidencia(idIncidencia, nuevoUsuarioId, usuario); // Implementar este método
-
-                lblReasignarOk.Visible = true;
-                lblReasignarOk.Text = "Incidencia reasignada correctamente.";
-                lblReasignarError.Visible = false;
-
-                // Refrescar detalle para mostrar nuevo asignado
-                MostrarDetallePanel(idIncidencia);
+                MostrarDetallePanel(id);
                 BindGrid();
             }
             catch (Exception ex)
             {
-                lblReasignarOk.Visible = false;
-                lblReasignarError.Visible = true;
-                lblReasignarError.Text = "Error al reasignar: " + ex.Message;
+                lblEditarOk.Visible = false;
+                lblEditarError.Visible = true;
+                lblEditarError.Text = "Error al guardar cambios: " + ex.Message;
+            }
+        }
+
+        protected void btnConfirmarResolucion_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int id = int.Parse(hfResolverIncidenciaId.Value);
+                string comentario = (txtComentarioResolucion.Text ?? "").Trim();
+
+                if (string.IsNullOrEmpty(comentario))
+                {
+                    lblResolverError.Visible = true;
+                    lblResolverError.Text = "Debes ingresar un comentario de resolución.";
+                    lblResolverOk.Visible = false;
+                    return;
+                }
+
+                var usuarioLogueado = Session["Usuario"] as dominio.Usuarios;
+                negocio.ResolverIncidenciaConComentario(id, comentario, usuarioLogueado, ESTADO_RESUELTO);
+
+                lblResolverOk.Visible = true;
+                lblResolverOk.Text = "Incidencia resuelta.";
+                lblResolverError.Visible = false;
+
+                MostrarDetallePanel(id);
+                BindGrid();
+            }
+            catch (Exception ex)
+            {
+                lblResolverOk.Visible = false;
+                lblResolverError.Visible = true;
+                lblResolverError.Text = "Error al resolver: " + ex.Message;
+            }
+        }
+
+        protected void btnConfirmarCierre_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int id = int.Parse(hfCerrarIncidenciaId.Value);
+                string comentario = (txtComentarioCierre.Text ?? "").Trim();
+
+                if (string.IsNullOrEmpty(comentario))
+                {
+                    lblCerrarError.Visible = true;
+                    lblCerrarError.Text = "Debes ingresar un comentario de cierre.";
+                    lblCerrarOk.Visible = false;
+                    return;
+                }
+
+                var usuarioLogueado = Session["Usuario"] as dominio.Usuarios;
+                negocio.CerrarIncidenciaConComentario(id, comentario, usuarioLogueado, ESTADO_CERRADO);
+
+                lblCerrarOk.Visible = true;
+                lblCerrarOk.Text = "Incidencia cerrada.";
+                lblCerrarError.Visible = false;
+
+                MostrarDetallePanel(id);
+                BindGrid();
+            }
+            catch (Exception ex)
+            {
+                lblCerrarOk.Visible = false;
+                lblCerrarError.Visible = true;
+                lblCerrarError.Text = "Error al cerrar: " + ex.Message;
             }
         }
 
         protected void btnVolverDetalle_Click(object sender, EventArgs e)
         {
             pnlDetalle.Visible = false;
-            pnlReasignar.Visible = false;
+            pnlEditar.Visible = false;
+            pnlResolver.Visible = false;
+            pnlCerrar.Visible = false;
             BindGrid();
+        }
+
+        // ---- Helpers de permisos ----
+
+        private bool PuedeModificar(dominio.Usuarios u)
+        {
+            int perfil = u?.Perfil?.IDPerfil ?? -1;
+            return perfil == PERFIL_ADMIN || perfil == PERFIL_SUPERVISOR;
+        }
+
+        private bool PuedeAccionarSobre(int idIncidencia, dominio.Usuarios u)
+        {
+            if (u == null) return false;
+            int perfil = u.Perfil?.IDPerfil ?? -1;
+            if (perfil == PERFIL_ADMIN || perfil == PERFIL_SUPERVISOR) return true;
+
+            // Telefonista: sólo si es el asignado
+            if (perfil == PERFIL_TELEFONISTA)
+            {
+                var inc = negocio.ObtenerIncidenciaPorId(idIncidencia);
+                return inc != null && inc.AsignadoUsuario != null && inc.AsignadoUsuario.IDUsuario == u.IDUsuario;
+            }
+            return false;
         }
     }
 }
