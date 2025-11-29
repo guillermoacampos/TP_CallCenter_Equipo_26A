@@ -17,9 +17,6 @@ namespace negocio
         // CREAR INCIDENCIA
         public int CrearIncidencia(Incidencias inc, int idCreadorUsuario)
         {
-            Console.WriteLine("Ejecutando CrearIncidencia...");
-            Console.WriteLine($"Cliente: {inc.Cliente?.Nombre}, Email: {inc.Cliente?.Email}");
-
             if (inc == null) throw new ArgumentNullException(nameof(inc));
             if (inc.Cliente == null || inc.Cliente.IDCliente <= 0) throw new ArgumentException("Falta el cliente.", nameof(inc.Cliente));
             if (inc.TipoIncidencia == null || inc.TipoIncidencia.IDTipoIncidencia <= 0) throw new ArgumentException("Falta el tipo.", nameof(inc.TipoIncidencia));
@@ -66,35 +63,12 @@ namespace negocio
                     numeroReclamo = Convert.ToInt32(datos.Lector["NumeroReclamo"]);
 
                 inc.IDIncidencia = nuevoIdIncidencia;
-
-                Console.WriteLine("Incidencia creada. Enviando correo...");
-                EnviarCorreoAlta(inc, numeroReclamo);
-
                 return numeroReclamo;
             }
             finally
             {
                 datos.CerrarConexion();
             }
-        }
-
-        private void EnviarCorreoAlta(Incidencias inc, int numeroReclamo)
-        {
-            if (string.IsNullOrWhiteSpace(inc.Cliente?.Email))
-            {
-                Console.WriteLine("Error: El cliente no tiene un correo electrónico válido.");
-                return;
-            }
-
-            var emailService = new EmailService();
-            string asunto = "Alta de Incidencia - Número de Reclamo: " + numeroReclamo;
-            string cuerpo = $"<h1>Detalles de la Incidencia</h1>" +
-                           $"<p>Número de Reclamo: {numeroReclamo}</p>" +
-                           $"<p>Cliente: {inc.Cliente.Nombre}</p>" +
-                           $"<p>Descripción: {inc.Descripcion}</p>";
-
-            emailService.armarCorreo(inc.Cliente.Email, asunto, cuerpo);
-            emailService.enviarEmail();
         }
 
         // LISTAR TODAS
@@ -119,7 +93,6 @@ namespace negocio
                            I.ComentarioResolucion,
                            I.ComentarioCierre,
                            C.Nombre   AS ClienteNombre,
-                           C.Email    AS Email,
                            T.Nombre   AS TipoNombre,
                            P.Nombre   AS PrioridadNombre,
                            E.Descripcion AS EstadoDesc,
@@ -170,7 +143,6 @@ namespace negocio
                            I.ComentarioResolucion,
                            I.ComentarioCierre,
                            C.Nombre   AS ClienteNombre,
-                           C.Email    AS Email,
                            T.Nombre   AS TipoNombre,
                            P.Nombre   AS PrioridadNombre,
                            E.Descripcion AS EstadoDesc,
@@ -249,9 +221,6 @@ namespace negocio
         // RESOLVER
         public void ResolverIncidenciaConComentario(int idIncidencia, string comentarioResolucion, Usuarios usuarioAccion, int? estadoResueltoOverride = null)
         {
-            Console.WriteLine("Ejecutando ResolverIncidenciaConComentario...");
-            Console.WriteLine($"ID Incidencia: {idIncidencia}, Comentario: {comentarioResolucion}");
-
             if (string.IsNullOrWhiteSpace(comentarioResolucion))
                 throw new ArgumentException("Comentario de resolución obligatorio.");
             int estadoFinal = estadoResueltoOverride ?? ESTADO_RESUELTO;
@@ -270,39 +239,13 @@ namespace negocio
                 datos.SetearParametro("@estado", estadoFinal);
                 datos.SetearParametro("@id", idIncidencia);
                 datos.EjecutarAccion();
-
-                Console.WriteLine("Incidencia resuelta. Enviando correo...");
-                var incidencia = ObtenerIncidenciaPorId(idIncidencia);
-                EnviarCorreoResolucion(incidencia);
             }
             finally { datos.CerrarConexion(); }
-        }
-
-        private void EnviarCorreoResolucion(Incidencias inc)
-        {
-            if (string.IsNullOrWhiteSpace(inc.Cliente?.Email))
-            {
-                Console.WriteLine("Error: El cliente no tiene un correo electrónico válido.");
-                return;
-            }
-
-            var emailService = new EmailService();
-            string asunto = "Resolución de Incidencia - Número de Reclamo: " + inc.NumeroReclamo;
-            string cuerpo = $"<h1>Incidencia Resuelta</h1>" +
-                           $"<p>Número de Reclamo: {inc.NumeroReclamo}</p>" +
-                           $"<p>Cliente: {inc.Cliente.Nombre}</p>" +
-                           $"<p>Comentario de Resolución: {inc.ComentarioResolucion}</p>";
-
-            emailService.armarCorreo(inc.Cliente.Email, asunto, cuerpo);
-            emailService.enviarEmail();
         }
 
         // CERRAR
         public void CerrarIncidenciaConComentario(int idIncidencia, string comentarioCierre, Usuarios usuarioAccion, int? estadoCerradoOverride = null)
         {
-            Console.WriteLine("Ejecutando CerrarIncidenciaConComentario...");
-            Console.WriteLine($"ID Incidencia: {idIncidencia}, Comentario: {comentarioCierre}");
-
             if (string.IsNullOrWhiteSpace(comentarioCierre))
                 throw new ArgumentException("Comentario de cierre obligatorio.");
             int estadoFinal = estadoCerradoOverride ?? ESTADO_CERRADO;
@@ -319,31 +262,8 @@ namespace negocio
                 datos.SetearParametro("@estado", estadoFinal);
                 datos.SetearParametro("@id", idIncidencia);
                 datos.EjecutarAccion();
-
-                Console.WriteLine("Incidencia cerrada. Enviando correo...");
-                var incidencia = ObtenerIncidenciaPorId(idIncidencia);
-                EnviarCorreoCierre(incidencia);
             }
             finally { datos.CerrarConexion(); }
-        }
-
-        private void EnviarCorreoCierre(Incidencias inc)
-        {
-            if (string.IsNullOrWhiteSpace(inc.Cliente?.Email))
-            {
-                Console.WriteLine("Error: El cliente no tiene un correo electrónico válido.");
-                return;
-            }
-
-            var emailService = new EmailService();
-            string asunto = "Cierre de Incidencia - Número de Reclamo: " + inc.NumeroReclamo;
-            string cuerpo = $"<h1>Incidencia Cerrada</h1>" +
-                           $"<p>Número de Reclamo: {inc.NumeroReclamo}</p>" +
-                           $"<p>Cliente: {inc.Cliente.Nombre}</p>" +
-                           $"<p>Comentario de Cierre: {inc.ComentarioCierre}</p>";
-
-            emailService.armarCorreo(inc.Cliente.Email, asunto, cuerpo);
-            emailService.enviarEmail();
         }
 
         // REASIGNAR
@@ -385,8 +305,7 @@ namespace negocio
                 Cliente = new Clientes
                 {
                     IDCliente = Convert.ToInt32(datos.Lector["IDCliente"]),
-                    Nombre = datos.Lector["ClienteNombre"] == DBNull.Value ? "" : (string)datos.Lector["ClienteNombre"],
-                    Email = datos.Lector["Email"] == DBNull.Value ? "" : (string)datos.Lector["Email"]
+                    Nombre = datos.Lector["ClienteNombre"] == DBNull.Value ? "" : (string)datos.Lector["ClienteNombre"]
                 },
                 TipoIncidencia = new TiposDeIncidencia
                 {

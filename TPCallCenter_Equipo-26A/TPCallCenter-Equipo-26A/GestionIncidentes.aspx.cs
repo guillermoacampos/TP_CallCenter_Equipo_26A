@@ -246,7 +246,9 @@ namespace TPCallCenter_Equipo_26A
                 if (string.IsNullOrWhiteSpace(txtComentarioResolucion.Text))
                     throw new Exception("Comentario obligatorio.");
 
-                incNeg.ResolverIncidenciaConComentario(id, txtComentarioResolucion.Text.Trim(), UsuarioActual());
+                inc.ComentarioResolucion = txtComentarioResolucion.Text.Trim();
+                inc.Estado.IDEstado = ESTADO_RESUELTO;
+                incNeg.Actualizar(inc);
                 lblResolverOk.Visible = true;
                 lblResolverOk.Text = "Marcada como Resuelta.";
                 CargarIncidencias();
@@ -268,7 +270,9 @@ namespace TPCallCenter_Equipo_26A
                 if (string.IsNullOrWhiteSpace(txtComentarioCierre.Text))
                     throw new Exception("Comentario obligatorio.");
 
-                incNeg.CerrarIncidenciaConComentario(id, txtComentarioCierre.Text.Trim(), UsuarioActual());
+                inc.ComentarioCierre = txtComentarioCierre.Text.Trim();
+                inc.Estado.IDEstado = ESTADO_CERRADO;
+                incNeg.Actualizar(inc);
                 lblCerrarOk.Visible = true;
                 lblCerrarOk.Text = "Incidencia cerrada.";
                 CargarIncidencias();
